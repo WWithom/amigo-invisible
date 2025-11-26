@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retos de tu Amigo Invisible</title>
+    <link rel="stylesheet" href="style.css?v=final_step1_fixed_v2">
+</head>
+<body>
+    <div id="debug-nav"></div>
+    
+    <div id="confetti-container"></div>
+    
+    <h1 id="challenge-title"></h1>
+
+    <div id="login-container" class="container-dialog"></div>
+
+    <div id="app-container" class="container-dialog">
+        <div class="card-frame">
+            <p id="message-text"></p>
+        </div>
+    </div>
+    
+    <button id="continue-button"></button>
+
+    <div id="challenge-container" class="container-challenge">
+        <div id="game-board">
+            <div id="fixed-column" class="drop-column"></div>
+            <div id="card-source-right" class="card-column"></div>
+        </div>
+        <div id="validation-area">
+            <button id="validate-button">Validar</button>
+        </div>
+    </div>
+    
+    <div id="challenge1-feedback-overlay">
+        <div id="challenge1-feedback-box">
+            <h2 id="challenge1-feedback-title"></h2>
+            <p id="challenge1-feedback-message"></p>
+            <button id="challenge1-feedback-button">Continuar</button>
+        </div>
+    </div>
+
+    <div id="challenge-container-2" class="container-challenge">
+        <div id="challenge-2-ui">
+            <div id="lives-container"></div>
+            <div id="trophy-container"></div>
+        </div>
+        <h2 id="challenge-subtitle"></h2>
+        
+        <div id="challenge-2-content">
+            <p id="challenge-2-question-text"></p>
+            <h3 id="person-selector-title" class="person-selector-title"></h3>
+            <div id="person-selector-container"></div>
+            <div id="answer-grid-container"></div>
+            <button id="challenge-2-button"></button>
+            <p id="challenge-2-feedback"></p>
+        </div>
+    </div>
+    
+    <div id="challenge-container-3" class="container-challenge">
+        <div id="challenge-3-ui">
+            <div>
+                <div id="lives-container-3"></div>
+                <div id="joker-container"></div> 
+            </div>
+            <div id="trophy-container-3"></div>
+        </div>
+        
+        <h2 id="challenge-subtitle-3"></h2>
+        
+        <div id="challenge-3-content">
+            <p id="challenge-3-question-text"></p>
+            <h3 id="person-selector-title-3" class="person-selector-title"></h3>
+            <div id="person-selector-container-3"></div>
+            <div id="answer-grid-container-3"></div>
+            <p id="challenge-3-feedback"></p>
+        </div>
+    </div>
+
+    <div id="challenge-container-4" class="container-challenge">
+        <h2 id="challenge-subtitle-4"></h2> 
+        
+        <div id="challenge-4-content">
+            <h3 id="challenge-4-theme"></h3>
+            
+            <h3 id="person-selector-title-4" class="person-selector-title">ELIGE UN AYUDANTE:</h3>
+            <div id="person-selector-container-4"></div>
+            
+            <p id="challenge-4-question-text" style="display:none;"></p> 
+            <div id="answer-grid-container-4"></div>
+            
+            <p id="challenge-4-feedback"></p>
+        </div>
+    </div>
+
+    <div id="challenge-container-5" class="container-challenge">
+        <div id="challenge-5-ui">
+            <div id="ticks-container"></div> 
+        </div>
+
+        <h2 id="challenge-subtitle-5"></h2> 
+        
+        <div id="challenge-5-content">
+            <p id="challenge-5-question-text"></p>
+            
+            <div id="answer-grid-container-5"></div>
+            
+            <div id="commitment-buttons-container">
+                <div id="btn-explain-yes" class="commitment-btn">
+                    <span class="emoji-icon">💬</span>
+                    <span class="status-icon">✅</span>
+                </div>
+                <div id="btn-explain-no" class="commitment-btn">
+                    <span class="emoji-icon">💬</span>
+                    <span class="status-icon">❌</span>
+                </div>
+            </div>
+            
+            <p id="challenge-5-feedback"></p>
+        </div>
+    </div>
+
+    <div id="progress-marker"></div>
+
+    <div id="progress-bar-container">
+        <div class="trophy-icon-small">🏆</div>
+        <div id="retro-health-bar">
+            <div class="health-segment red" id="seg-1"></div>
+            <div class="health-segment red" id="seg-2"></div>
+            <div class="health-segment red" id="seg-3"></div>
+            <div class="health-segment red" id="seg-4"></div>
+            <div class="health-segment yellow" id="seg-5"></div>
+            <div class="health-segment yellow" id="seg-6"></div>
+            <div class="health-segment green" id="seg-7"></div>
+            <div class="health-segment green" id="seg-8"></div>
+        </div>
+    </div>
+
+    <div id="punishment-overlay">
+        <div id="punishment-box">
+            <h2>¡HAS PERDIDO TODAS TUS VIDAS!</h2>
+            <p>Para continuar, debes cumplir un castigo que te pongan los demás.</p>
+            <h3>¿Castigo cumplido?</h3>
+            <button id="punishment-yes">SÍ</button>
+            <button id="punishment-no">No...</button>
+        </div>
+    </div>
+
+    <div id="explanation-overlay">
+        <div id="explanation-box">
+            <h2 id="explanation-title">ACLARACIÓN</h2>
+            <p id="explanation-text"></p>
+            <button id="explanation-continue">Entendido</button>
+        </div>
+    </div>
+    
+    <div id="repesca-overlay" class="overlay-container" style="display: none; z-index: 200;">
+        <div class="overlay-content repesca-content">
+            <div id="repesca-close-btn" class="close-btn-circle">X</div>
+            <div id="repesca-text"></div>
+        </div>
+    </div>
+
+    <div id="joker-area">
+        <div id="joker-button-container">
+            <div id="joker-button">🃏</div>
+            <span>Joker?</span>
+        </div>
+        <div id="joker-hint-container">
+            <h3 id="joker-hint-title">Pista:</h3>
+            <p id="joker-hint-text"></p>
+        </div>
+    </div>
+    
+    <img id="final-gift-image" src="regalo.png" alt="Tu Regalo">
+
+    <script src="script.js?v=final_step1_fixed_v2"></script>
+</body>
+</html>
