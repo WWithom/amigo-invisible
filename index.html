@@ -2,13 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#000000">
+    
     <title>Retos de tu Amigo Invisible</title>
-    <link rel="stylesheet" href="style.css?v=final_step1_fixed_v2">
+    <link rel="stylesheet" href="style.css?v=tablet_fix_v1">
 </head>
 <body>
     <div id="debug-nav"></div>
-    
     <div id="confetti-container"></div>
     
     <h1 id="challenge-title"></h1>
@@ -48,7 +53,7 @@
         </div>
         <h2 id="challenge-subtitle"></h2>
         
-        <div id="challenge-2-content">
+        <div id="challenge-2-content" class="bottom-content">
             <p id="challenge-2-question-text"></p>
             <h3 id="person-selector-title" class="person-selector-title"></h3>
             <div id="person-selector-container"></div>
@@ -69,7 +74,7 @@
         
         <h2 id="challenge-subtitle-3"></h2>
         
-        <div id="challenge-3-content">
+        <div id="challenge-3-content" class="bottom-content">
             <p id="challenge-3-question-text"></p>
             <h3 id="person-selector-title-3" class="person-selector-title"></h3>
             <div id="person-selector-container-3"></div>
@@ -81,7 +86,7 @@
     <div id="challenge-container-4" class="container-challenge">
         <h2 id="challenge-subtitle-4"></h2> 
         
-        <div id="challenge-4-content">
+        <div id="challenge-4-content" class="bottom-content">
             <h3 id="challenge-4-theme"></h3>
             
             <h3 id="person-selector-title-4" class="person-selector-title">ELIGE UN AYUDANTE:</h3>
@@ -101,7 +106,7 @@
 
         <h2 id="challenge-subtitle-5"></h2> 
         
-        <div id="challenge-5-content">
+        <div id="challenge-5-content" class="bottom-content">
             <p id="challenge-5-question-text"></p>
             
             <div id="answer-grid-container-5"></div>
@@ -175,6 +180,6 @@
     
     <img id="final-gift-image" src="regalo.png" alt="Tu Regalo">
 
-    <script src="script.js?v=final_step1_fixed_v2"></script>
+    <script src="script.js?v=tablet_fix_v1"></script>
 </body>
 </html>
