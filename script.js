@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- VARIABLES GLOBALES ---
     const numeroTotalDeRetos = 5; 
     
-    // --- GUION LINEAL ---
+    // --- GUION DEL JUEGO ---
     const guion = [
         /* 0 */ { texto: "Hola Andrea" },
         /* 1 */ { texto: "Un año más<br>¡te toca trabajar!" },
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         /* 49 */ { texto: "¿Preparada?", boton: "Avanzar" }, 
         /* 50 */ { texto: "Ah! Una cosa más, que se me olvidaba", boton: "Avanzar" }, 
         
-        /* 51: BARRA DE VIDA RETRO */ 
+        /* 51 */ 
         { 
             texto: "El resultado de éste reto es más importante que los anteriores, ya que la cantidad de aciertos determinará la dificultad del último reto.",
             boton: "Continuar..."
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         /* 54 */ { tipo: "trigger", reto: 4 },
         
-        // --- POST RETO 4 / INTRO RETO 5 ---
+        // --- TRANSICIÓN RETO 4 -> 5 ---
         /* 55 */ { texto: "¡Patidifuso me hallo!<br>¿¡Cómo narices has acertado todas?!" }, 
         /* 56 */ { texto: "¡Impresionante!<br>No habría apostado a tantos aciertos jamás, la verdad" }, 
         /* 57 */ { texto: "Bueno, un aprobado. <br> No está nada mal, no era fácil" }, 
@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         /* 64 */ { texto: "Una detalle importante: no sabes qué preguntas te van a venir, pero hay una cosa que sí sabes." }, 
         
+        // PAUSAS DRAMÁTICAS
         /* 65 */ { texto: "¡Vas a tener que dar detalles de 4 de esas 8!|<br>Elige bien qué 4 preguntas realmente no quieres dar más detalles que el Si o No" },
         
         /* 66 */ { texto: "¿Preparada?|<br>¿Igual deberías haberte tomado una copita antes de empezar esto, no?😅", boton: "Avanzar" },
@@ -141,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { tematica: "Geografía", enunciado: "¿Qué país tiene más husos horarios?", opciones: ["Francia", "Estados Unidos", "Rusia", "Brasil"], correcta: 0, aclaracion: "Aunque Rusia es el país más grande por extensión, Francia es el país con más husos horarios (12 o 13 según la época del año). Esto se debe a sus territorios de ultramar repartidos por el mundo (Polinesia Francesa, Guayana, Guadalupe, etc.).<br>EEUU tiene 11 husos horarios y Rusia 11 completan el podio. Brasil es el noveno con 4 husos horarios." }
     ];
 
-    // RETO 5 (Preguntas Reales)
+    // RETO 5
     const preguntasReto5 = [
         { id: 1, texto: "¿Alguna vez le has liado alguna 'gorda' a alguno de tus hermanos o les ha caído una bronca importante y a día de hoy no saben que tú has sido la culpable?" },
         { id: 2, texto: "¿Alguna vez has fingido estar enferma para cancelar algún plan que te daba pereza con alguno de los presentes?" },
@@ -292,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
              return;
         }
         
-        // Post Reto 4 (55-58)
+        // Post Reto 4
         const fallosR4 = 8 - (reto4State.health || 8);
         if (pasoActual === 55 && fallosR4 === 0) { renderizarTexto(currentStep.texto, currentStep); return; }
         else if (pasoActual === 55 && fallosR4 > 0) { pasoActual++; mostrarSiguienteMensaje(); return; } 
@@ -306,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pasoActual === 58 && fallosR4 >= 4) { renderizarTexto(currentStep.texto, currentStep); return; }
         else if (pasoActual === 58 && fallosR4 < 4) { pasoActual++; mostrarSiguienteMensaje(); return; }
         
-        // Mensaje Intermedio Reto 5 (Repesca)
+        // Mensaje Intermedio Reto 5
         if (pasoActual === 55) { // Nota: Este índice 55 es un placeholder lógico en caso de reutilizar
              // La lógica real de repesca está dentro de Reto 5 functions
         }
@@ -496,6 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(regalador&&regaladoEl){paresEncontrados.set(regalador,regaladoEl.dataset.name);}
         });
         if(paresEncontrados.size===9){soluciones.forEach((regalado,regalador)=>{if(paresEncontrados.get(regalador)===regalado)aciertos++;});}
+        
         if(aciertos===9){
             feedbackTitle.textContent="¡RETO COMPLETADO!";feedbackTitle.style.color="#00FF00";feedbackMessage.innerHTML="";feedbackButton.textContent="Continuar";
             feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';iniciarConfeti();setTimeout(()=>{completarReto(1);},500);};feedbackOverlay.style.display='flex';
@@ -511,7 +513,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function iniciarConfeti(){const confettiContainer=document.getElementById('confetti-container');confettiContainer.innerHTML='';for(let i=0;i<100;i++){const piece=document.createElement('div');piece.className='confetti-piece';piece.style.left=`${Math.random()*100}vw`;piece.style.backgroundColor=i%2===0?'#FFD700':'#FFC0CB';piece.style.animationDelay=`${Math.random()*5}s`;piece.style.height=`${Math.floor(Math.random()*10)+10}px`;piece.style.width=`${Math.floor(Math.random()*5)+5}px`;confettiContainer.appendChild(piece);}}
     function completarReto(n){challengeContainer.style.opacity='0';challengeTitle.style.display='none';setTimeout(()=>{challengeContainer.style.display='none';appContainer.style.display='flex';appContainer.style.opacity='0';progressMarker.style.display='block';marcarRetoCompletado(n);requestAnimationFrame(()=>{appContainer.style.opacity='1';});if(intentosFallidos===0)pasoActual=17;else if(intentosFallidos===1)pasoActual=18;else if(intentosFallidos===2)pasoActual=19;else pasoActual=20;mostrarSiguienteMensaje();},500);}
 
-    // --- RETO 2 (CORREGIDO) ---
+    // --- RETO 2 ---
     function iniciarReto2(){currentChallenge=2;appContainer.style.opacity='0';continueButton.style.display='none';progressMarker.style.display='none';challengeTitle.textContent="RETO 2";challengeTitle.style.display='block';setTimeout(()=>{appContainer.style.display='none';challengeContainer2.style.display='flex';challengeContainer2.style.opacity='1';},500);reto2State.currentQuestion=0;reto2State.lives=3;reto2State.correctAnswers=0;reto2State.availablePeople=[...personasReto2];reto2State.punishments=0;reto2State.isLooping=false;preguntasReto2.forEach(p=>{p.status='pending';p.invitedAnswer=[];p.answeredBy='';});actualizarUIReto2();mostrarPreguntaReto2();}
     function actualizarUIReto2(){livesContainer.innerHTML='';for(let i=0;i<3;i++){const heart=document.createElement('span');heart.className='heart';heart.id=`heart-${i}`;heart.textContent='❤️';if(i>=reto2State.lives)heart.classList.add('lost');livesContainer.appendChild(heart);}trophyContainer.innerHTML='';preguntasReto2.forEach((pregunta,index)=>{const trophy=document.createElement('span');trophy.className='trophy';trophy.id=`trophy-${index}`;trophy.textContent='🏆';if(pregunta.status==='correct')trophy.classList.add('correct');if(pregunta.status==='failed')trophy.classList.add('failed');trophyContainer.appendChild(trophy);});}
     function mostrarPreguntaReto2(){if(reto2State.isLooping){let nextQ=reto2State.currentQuestion;while(preguntasReto2[nextQ].status==='correct'){nextQ=(nextQ+1)%preguntasReto2.length;}reto2State.currentQuestion=nextQ;}reto2State.currentTurn='andrea';const pregunta=preguntasReto2[reto2State.currentQuestion];challengeSubtitle.textContent=`Pregunta ${pregunta.id}`;if(reto2State.isLooping){challenge2QuestionText.innerHTML=`RECORDATORIO: ESTA LA RESPONDIÓ ${pregunta.answeredBy}.<br><br>${pregunta.texto}`;}else{challenge2QuestionText.innerHTML=pregunta.texto;}challenge2Feedback.innerHTML='';challenge2Button.style.visibility='hidden';answerGridContainer.innerHTML='';if(reto2State.isLooping){mostrarOpcionesAndrea();return;}personSelectorTitle.textContent='ELIGE A UNA PERSONA:';personSelectorTitle.style.display='block';personSelectorContainer.innerHTML='';personasReto2.forEach(nombre=>{const card=document.createElement('div');card.className='person-card';card.textContent=nombre;if(reto2State.availablePeople.includes(nombre)){card.onclick=()=>seleccionarPersona(nombre);}else{card.classList.add('disabled');}personSelectorContainer.appendChild(card);});}
@@ -522,7 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function guardarRespuestaInvitado(){const selectedCards=answerGridContainer.querySelectorAll('.selected');const pregunta=preguntasReto2[reto2State.currentQuestion];pregunta.invitedAnswer=[];selectedCards.forEach(card=>{pregunta.invitedAnswer.push(card.textContent);});mostrarOpcionesAndrea();}
     function mostrarOpcionesAndrea(){reto2State.currentTurn='andrea-reveal';const pregunta=preguntasReto2[reto2State.currentQuestion];if(!reto2State.isLooping){challenge2QuestionText.innerHTML="¡TU TURNO, ANDREA!<br>INTENTA ACERTAR.";}challenge2Button.textContent="Validar";challenge2Button.style.visibility='hidden';personSelectorContainer.innerHTML='';personSelectorTitle.style.display='none';crearCuadriculaRespuestas(pregunta);}
     
-    // CORRECCIÓN VISUAL RETO 2
+    // CORRECCIÓN VISUAL RETO 2 (Q6 y Q8)
     function validarRespuestaAndrea(){
         answerGridContainer.querySelectorAll('.answer-card').forEach(card=>card.onclick=null);
         const selectedCards=answerGridContainer.querySelectorAll('.selected');
@@ -545,7 +547,6 @@ document.addEventListener('DOMContentLoaded', () => {
             allCards.forEach(card => {
                 const text = card.textContent;
                 const wasSelected = card.classList.contains('selected');
-                
                 if (pregunta.allCorrect) {
                     card.classList.remove('selected'); card.classList.add('correct'); card.classList.add('blink-effect');
                 } else {
@@ -583,7 +584,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function comprobarEstadoJuego(){
         if(reto2State.lives<=0&&reto2State.correctAnswers<5){mostrarCastigo();return;}
-        
         let allAnswered=preguntasReto2.every(p=>p.status!=='pending');
         
         if(allAnswered){

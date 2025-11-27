@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
     
     <title>Retos de tu Amigo Invisible</title>
-    <link rel="stylesheet" href="style.css?v=final_cleanup_v1">
+    <link rel="stylesheet" href="style.css?v=final_v10_full">
 </head>
 <body>
     <button id="fullscreen-btn">⛶</button>
 
     <div id="debug-nav"></div>
-    
     <div id="confetti-container"></div>
     
     <h1 id="challenge-title"></h1>
@@ -55,7 +55,7 @@
         </div>
         <h2 id="challenge-subtitle"></h2>
         
-        <div id="challenge-2-content" class="content-wrapper">
+        <div id="challenge-2-content" class="bottom-content">
             <p id="challenge-2-question-text"></p>
             <h3 id="person-selector-title" class="person-selector-title"></h3>
             <div id="person-selector-container"></div>
@@ -76,7 +76,7 @@
         
         <h2 id="challenge-subtitle-3"></h2>
         
-        <div id="challenge-3-content" class="content-wrapper">
+        <div id="challenge-3-content" class="bottom-content">
             <p id="challenge-3-question-text"></p>
             <h3 id="person-selector-title-3" class="person-selector-title"></h3>
             <div id="person-selector-container-3"></div>
@@ -88,7 +88,7 @@
     <div id="challenge-container-4" class="container-challenge bottom-aligned">
         <h2 id="challenge-subtitle-4"></h2> 
         
-        <div id="challenge-4-content" class="content-wrapper">
+        <div id="challenge-4-content" class="bottom-content">
             <h3 id="challenge-4-theme"></h3>
             <h3 id="person-selector-title-4" class="person-selector-title">ELIGE UN AYUDANTE:</h3>
             <div id="person-selector-container-4"></div>
@@ -105,7 +105,7 @@
 
         <h2 id="challenge-subtitle-5"></h2> 
         
-        <div id="challenge-5-content" class="content-wrapper">
+        <div id="challenge-5-content" class="bottom-content">
             <p id="challenge-5-question-text"></p>
             
             <div id="answer-grid-container-5"></div>
@@ -141,17 +141,6 @@
         </div>
     </div>
 
-    <div id="joker-area" style="display: none;">
-        <div id="joker-button-container">
-            <div id="joker-button">🃏</div>
-            <span>Joker?</span>
-        </div>
-        <div id="joker-hint-container">
-            <h3 id="joker-hint-title">Pista:</h3>
-            <p id="joker-hint-text"></p>
-        </div>
-    </div>
-
     <div id="punishment-overlay">
         <div id="punishment-box">
             <h2>¡HAS PERDIDO TODAS TUS VIDAS!</h2>
@@ -175,9 +164,20 @@
             <div id="repesca-text"></div>
         </div>
     </div>
+
+    <div id="joker-area" style="display: none;">
+        <div id="joker-button-container">
+            <div id="joker-button">🃏</div>
+            <span>Joker?</span>
+        </div>
+        <div id="joker-hint-container">
+            <h3 id="joker-hint-title">Pista:</h3>
+            <p id="joker-hint-text"></p>
+        </div>
+    </div>
     
     <img id="final-gift-image" src="regalo.png" alt="Tu Regalo">
 
-    <script src="script.js?v=final_cleanup_v1"></script>
+    <script src="script.js?v=final_v10_full"></script>
 </body>
 </html>
