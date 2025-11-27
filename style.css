@@ -1,50 +1,41 @@
 @font-face {
   font-family: 'BroadwayCustom';
-  src: url('BROADW.ttf'); /* Si falla, prueba a renombrar tu archivo a BROADW.ttf en mayúsculas */
+  /* FORMATO ESTÁNDAR WOFF PRIMERO, LUEGO TTF */
+  src: url('BROADW.woff') format('woff'),
+       url('BROADW.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 * { box-sizing: border-box; }
-
-/* Aseguramos altura 100% para que Flexbox funcione */
-html, body { 
-    height: 100%; 
-    margin: 0; 
-    padding: 0; 
-    overflow: hidden; 
-}
+html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
 
 body {
-    font-family: 'BroadwayCustom', 'Arial Black', sans-serif;
+    font-family: 'BroadwayCustom', 'Arial Black', sans-serif; /* Fallback */
     background-image: url('teatro-fondo-vertical.png');
-    background-size: cover; 
-    background-position: center center;
-    background-repeat: no-repeat; 
-    background-color: #000;
-    user-select: none; 
-    -webkit-user-select: none;
+    background-size: cover; background-position: center center;
+    background-repeat: no-repeat; background-color: #000;
+    user-select: none; -webkit-user-select: none;
 }
 
 @media (orientation: landscape) {
     body {
         background-image: url('teatro-fondo-horizontal.png');
-        background-size: cover; 
-        background-position: top center; 
+        background-size: cover; background-position: top center;
     }
 }
 
-/* --- BOTÓN PANTALLA COMPLETA --- */
+/* --- UI GLOBAL --- */
 #fullscreen-btn {
-    position: fixed; top: 10px; left: 10px; z-index: 9999;
+    position: fixed; top: 10px; right: 10px; z-index: 9999; /* DERECHA */
     background: rgba(0,0,0,0.5); color: #FFD700; 
     border: 2px solid #FFD700; border-radius: 5px;
     font-size: 1.5rem; padding: 5px 10px; cursor: pointer;
 }
 
-/* --- DEBUG --- */
 #debug-nav {
-    position: fixed; top: 5px; right: 5px; z-index: 99999; 
+    position: fixed; top: 5px; left: 5px; z-index: 99999; /* IZQUIERDA */
     opacity: 0.5; display: flex; flex-wrap: wrap; width: 140px; 
-    justify-content: flex-end;
 }
 .debug-btn {
     background: #FFD700; color: #000; border: 1px solid #000;
@@ -59,47 +50,50 @@ body {
     font-size: 2.5rem; text-transform: uppercase; width: 100%; text-align: center;
     margin: 0;
 }
+/* Subtítulos un poco más arriba para dar espacio */
 #challenge-subtitle, #challenge-subtitle-3, #challenge-subtitle-5, #challenge-subtitle-4 {
-    position: fixed; top: 12vh; left: 50%; transform: translateX(-50%);
+    position: fixed; top: 14vh; left: 50%; transform: translateX(-50%);
     color: #FFD700; text-shadow: 1px 1px 0 #b8860b, 3px 3px 3px rgba(0,0,0,0.8);
     font-size: 1.5rem; text-align: center; text-transform: uppercase; width: 100%; z-index: 100;
     margin: 0;
 }
 
-/* --- CONTENEDORES DE PANTALLA COMPLETA --- */
+/* --- CONTENEDORES --- */
 .container-dialog, .container-challenge {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     transition: opacity 0.5s ease-in-out;
+    display: none; /* OCULTO POR DEFECTO (JS LO MUESTRA) */
 }
 
-/* Diálogos: Centrados */
+/* Diálogos (Intro) */
 .container-dialog {
     display: flex; justify-content: center; align-items: center;
     padding: 20px;
 }
 
-/* Retos: Contenido pegado abajo */
-.container-challenge {
-    display: flex; 
-    flex-direction: column;
-    justify-content: flex-end; /* MAGIA: Empuja todo abajo */
+/* Reto 1: Centrado */
+.container-challenge.center-content {
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding-top: 10vh;
+}
+
+/* Retos 2-5: Pegados Abajo */
+.container-challenge.bottom-aligned {
+    display: flex; flex-direction: column; 
+    justify-content: flex-end; /* ALINEACIÓN INFERIOR */
     align-items: center;
-    padding-bottom: 20px; /* Margen mínimo con el borde */
+    padding-bottom: 20px; /* Mínimo margen inferior */
 }
 
-/* El bloque que contiene pregunta y respuestas */
-.bottom-content {
-    width: 95%; 
-    max-width: 800px; 
-    text-align: center;
-    margin-bottom: 8vh; /* Separación del borde inferior para no tocar el marcador */
+.content-wrapper {
+    width: 95%; max-width: 800px; text-align: center;
+    margin-bottom: 0; /* El padding del padre controla la distancia */
 }
 
-/* --- DIÁLOGO --- */
-#app-container { display: flex; opacity: 1; }
-.card-frame { width: 100%; padding: 0; }
+/* Mensajes Intro */
+#app-container { display: flex; opacity: 1; } /* Intro visible inicio */
 #message-text {
-    font-size: 3.5rem; line-height: 1.5; text-align: center;
+    font-size: 3rem; line-height: 1.4; text-align: center;
     width: 90vw; max-width: 900px; margin: auto; color: transparent; text-transform: uppercase;
 }
 #message-text span { color: #FFD700; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); visibility: hidden; }
@@ -110,22 +104,11 @@ span.icon-diana { font-size: 3rem; display: block; margin-top: 10px; visibility:
     display: none; position: fixed; bottom: 30px; right: 40px; z-index: 999;
     background: none; border: none; color: #FFD700;
     font-family: 'BroadwayCustom', 'Arial Black', sans-serif; font-size: 1.3rem; cursor: pointer;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7); padding: 10px;
 }
 
-/* Media Query para móviles pequeños */
-@media (max-width: 600px) {
-    #message-text { font-size: 2rem; width: 95vw; }
-    #continue-button { bottom: 20px; right: 20px; }
-    #challenge-title { font-size: 1.8rem; top: 20px; }
-    #challenge-subtitle { top: 60px; font-size: 1.2rem; }
-    .bottom-content { margin-bottom: 10vh; }
-}
-
-/* --- RETO 1 (Drag & Drop) --- */
-/* Este reto es especial y necesita estar centrado, no pegado abajo */
-#challenge-container { justify-content: center; padding-top: 10vh; }
-#game-board { display: flex; justify-content: center; gap: 10px; width: 95vw; max-width: 800px; margin-top: 20px; }
+/* --- ELEMENTOS DE JUEGO --- */
+#game-board { display: flex; justify-content: center; gap: 20px; width: 95vw; max-width: 800px; margin-top: 20px; }
 .card-column, .drop-column { display: flex; flex-direction: column; align-items: center; gap: 5px; }
 .card-column { background: rgba(0,0,0,0.4); border-radius: 10px; padding: 5px; }
 .drop-row { display: flex; align-items: center; justify-content: center; gap: 5px; height: 35px; }
@@ -138,90 +121,71 @@ span.icon-diana { font-size: 3rem; display: block; margin-top: 10px; visibility:
 .card {
     display: flex; justify-content: center; align-items: center; background-color: #FFD700; color: #4B3621;
     font-family: 'Arial Black', sans-serif; font-size: 0.8rem; cursor: grab;
-    touch-action: none; /* CRÍTICO PARA DRAG EN TABLET */
-    user-select: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    touch-action: none; user-select: none; box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 .card.dragging { opacity: 0.8; transform: scale(1.1); z-index: 1000; }
 .arrow { color: #FFD700; font-size: 1.2rem; }
+
 #validation-area { margin-top: 20px; text-align: center; width: 100%; }
 #validate-button {
     font-family: 'BroadwayCustom', 'Arial Black', sans-serif; font-size: 1.5rem; padding: 10px 20px;
     background-color: #FFD700; color: #4B3621; border: none; border-radius: 5px; cursor: pointer; margin: 0 auto;
-    border-bottom: 5px solid #b8860b;
+    border-bottom: 5px solid #b8860b; box-shadow: 0 4px 4px rgba(0,0,0,0.5);
 }
 #validate-button:active { transform: translateY(3px); border-bottom-width: 2px; }
 
-/* --- TEXTOS DE PREGUNTAS (Estilo común) --- */
+/* --- PREGUNTAS Y RESPUESTAS --- */
 #challenge-2-question-text, #challenge-3-question-text, #challenge-4-question-text, #challenge-5-question-text {
     color: white; font-size: 1.8rem; text-transform: uppercase; line-height: 1.3; margin-bottom: 15px;
     display: flex; justify-content: center; align-items: center; text-shadow: 2px 2px 4px #000;
-    min-height: 80px; /* Evita saltos si el texto es corto */
+    min-height: 80px;
 }
 
 .person-selector-title { color: #FFD700; font-size: 1.3rem; margin-bottom: 10px; display: none; }
 #person-selector-container, #person-selector-container-3, #person-selector-container-4 { 
     display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; max-width: 800px; margin: 0 auto 15px auto;
 }
-@media (max-width: 600px) {
-    #person-selector-container, #person-selector-container-3, #person-selector-container-4 { grid-template-columns: 1fr 1fr; }
-}
-
-/* --- TARJETAS 3D --- */
 .person-card, .answer-card {
-    background: rgba(255, 215, 0, 0.9); 
-    color: #4B3621; 
-    font-family: 'Arial Black', sans-serif; 
-    font-size: 0.9rem; 
-    text-transform: uppercase; 
-    border-radius: 8px; 
-    padding: 10px; 
-    cursor: pointer; 
-    
-    /* Efecto 3D */
-    border: 2px solid #e6c200;
-    border-bottom: 6px solid #b8860b;
+    background: rgba(255, 215, 0, 0.9); color: #4B3621; 
+    font-family: 'Arial Black', sans-serif; font-size: 0.9rem; text-transform: uppercase; 
+    border-radius: 8px; padding: 10px; cursor: pointer; 
+    border: 2px solid #e6c200; border-bottom: 6px solid #b8860b; /* 3D */
     box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-    transform: translateY(0);
-    transition: transform 0.1s, border-bottom-width 0.1s;
-    
-    display: flex; justify-content: center; align-items: center;
-    min-height: 50px;
-    line-height: 1.2;
+    display: flex; justify-content: center; align-items: center; min-height: 50px; line-height: 1.2;
+    transition: transform 0.1s;
 }
-
 .person-card:active, .answer-card:active, .person-card.selected, .answer-card.selected {
-    transform: translateY(4px); 
-    border-bottom-width: 2px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    transform: translateY(4px); border-bottom-width: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
-
-.person-card.disabled { background-color: #555; color: #888; border-color: #333; cursor: not-allowed; opacity: 0.6; border-bottom-color: #222; }
+.person-card.selected, .answer-card.selected { background-color: #FFF; border-color: #CCC; border-bottom-color: #999; }
+.person-card.disabled { background-color: #555; color: #888; border-color: #333; cursor: not-allowed; border-bottom-color: #222; }
 
 #answer-grid-container, #answer-grid-container-3, #answer-grid-container-4, #answer-grid-container-5 { display: grid; gap: 10px; margin: 10px 0; }
 .grid-2x2 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
 .grid-4x2 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-@media (max-width: 600px) { .grid-4x2 { grid-template-columns: 1fr 1fr; } }
 
 .answer-card.correct { background-color: #33ff33; border-color: #00cc00; color: #003300; border-bottom-color: #006600; }
 .answer-card.wrong { background-color: #ff3333; border-color: #cc0000; color: #330000; border-bottom-color: #660000; }
-
-@keyframes blink-highlight { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 .blink-effect { animation: blink-highlight 0.4s ease-in-out 3; }
+@keyframes blink-highlight { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
 #challenge-2-button {
     font-family: 'BroadwayCustom', 'Arial Black', sans-serif; font-size: 1.5rem; padding: 10px 20px;
     background-color: #FFD700; color: #4B3621; border: none; border-radius: 5px; cursor: pointer;
-    margin: 10px 0; display: block; visibility: hidden;
-    border-bottom: 5px solid #b8860b;
+    margin: 10px 0; display: block; visibility: hidden; border-bottom: 5px solid #b8860b;
 }
 #challenge-2-button:active { transform: translateY(3px); border-bottom-width: 2px; }
 
 #challenge-2-feedback, #challenge-3-feedback, #challenge-4-feedback, #challenge-5-feedback { 
     font-size: 1.8rem; text-transform: uppercase; min-height: 2.5rem; margin-top: 5px; text-shadow: 2px 2px 4px #000;
+    /* Evitar que empuje layout si está vacío */
+    visibility: visible; 
 }
+/* Colores feedback */
 .feedback-correct { color: #00FF00; }
 .feedback-wrong { color: #FF0000; }
+/* Cuando está vacío, que no ocupe espacio excesivo pero reserve algo */
+p:empty { min-height: 0; margin: 0; } 
 
 /* --- UI SUPERIOR --- */
 #challenge-2-ui, #challenge-3-ui, #challenge-5-ui {
@@ -229,32 +193,15 @@ span.icon-diana { font-size: 3rem; display: block; margin-top: 10px; visibility:
     display: flex; justify-content: space-between; color: white; text-shadow: 1px 1px 2px #000;
 }
 #challenge-5-ui { justify-content: flex-end; }
-
 #lives-container, #lives-container-3, #trophy-container, #trophy-container-3, #joker-container, #ticks-container { font-size: 1.8rem; }
 #challenge-3-ui > div:first-child { display: flex; flex-direction: column; }
 #trophy-container-3 { float: right; }
-
-/* CORRECCIÓN TROFEOS Y ASPAS */
-.trophy { 
-    display: inline-block; 
-    margin: 0 2px; 
-    opacity: 0.3; 
-    position: relative; /* <--- ESTO ES CLAVE PARA QUE EL ASPA SE COLOQUE BIEN */
-}
+.trophy, .joker-icon, .heart, .tick-icon { display: inline-block; margin: 0 2px; }
+.trophy { opacity: 0.3; position: relative; } 
 .trophy.correct { opacity: 1; transform: scale(1.2); color: #FFD700; }
-.trophy.failed { opacity: 1; }
-.trophy.failed::after {
-    content: 'X'; 
-    position: absolute; 
-    left: 50%; 
-    top: 50%; 
-    transform: translate(-50%, -50%); /* Centrado exacto sobre el trofeo */
-    color: red; 
-    font-weight: bold;
-}
-.joker-icon, .heart, .tick-icon { display: inline-block; margin: 0 2px; }
-.joker-icon.used { opacity: 0.2; transform: scale(0.8); }
-.heart.lost { opacity: 0; transform: scale(0.5); transition: 0.5s; }
+.trophy.failed { opacity: 1; } 
+.trophy.failed::after { content: 'X'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: red; font-weight: bold; }
+.joker-icon.used { opacity: 0.2; transform: scale(0.8); } .heart.lost { opacity: 0; transform: scale(0.5); transition: 0.5s; }
 
 /* --- RETO 4 BARRA --- */
 #progress-bar-container { display: none; position: fixed; top: 15px; right: 15px; z-index: 101; align-items: center; gap: 10px; }
@@ -279,6 +226,20 @@ span.icon-diana { font-size: 3rem; display: block; margin-top: 10px; visibility:
 .commitment-btn .emoji-icon { font-size: 2rem; line-height: 1; } .commitment-btn .status-icon { font-size: 1.5rem; line-height: 1; }
 .blink-buttons { animation: flash-appear 1s ease-in-out 2; }
 
+/* --- JOKER --- */
+#joker-area { 
+    display: none; /* Oculto por defecto */
+    flex-direction: column; align-items: center; 
+    position: fixed; right: 5vw; top: 50%; transform: translateY(-50%); z-index: 102; 
+}
+#joker-button-container { cursor: pointer; text-align: center; color: #FFD700; }
+#joker-button-container.disabled { opacity: 0.3; cursor: not-allowed; }
+#joker-button { font-size: 4rem; text-shadow: 2px 2px 4px #000; }
+#joker-button-container span { font-size: 1.2rem; text-transform: uppercase; text-shadow: 1px 1px 2px #000; }
+#joker-hint-container { display: none; color: white; font-family: 'Arial Black', sans-serif; text-transform: uppercase; background: rgba(0,0,0,0.9); padding: 10px; border-radius: 5px; border: 2px solid #FFD700; width: 200px; text-align: center; font-size: 0.9rem; max-height: 30vh; overflow-y: auto; }
+#joker-hint-title { color: #FFD700; text-decoration: underline; font-size: 1.1rem; margin: 0; }
+#joker-hint-text { font-size: 1rem; margin: 5px 0 0 0; }
+
 /* --- OVERLAYS --- */
 #punishment-overlay, #explanation-overlay, #challenge1-feedback-overlay, #repesca-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
@@ -286,8 +247,7 @@ span.icon-diana { font-size: 3rem; display: block; margin-top: 10px; visibility:
 }
 #punishment-box, #explanation-box, #challenge1-feedback-box {
     background: rgba(0, 0, 0, 0.95); border: 3px solid #FFD700; border-radius: 10px; 
-    padding: 30px; text-align: center; color: white; width: 80vw; max-width: 600px; 
-    font-family: 'Arial Black', sans-serif;
+    padding: 30px; text-align: center; color: white; width: 80vw; max-width: 600px; font-family: 'Arial Black', sans-serif;
 }
 h2 { color: #FFD700; text-transform: uppercase; font-size: 1.8rem; margin-top: 0; text-shadow: 2px 2px 0 #000; }
 #explanation-text { font-size: 1.1rem; line-height: 1.4; margin-bottom: 20px; font-family: Arial, sans-serif; }
@@ -297,8 +257,6 @@ h2 { color: #FFD700; text-transform: uppercase; font-size: 1.8rem; margin-top: 0
     border-bottom: 5px solid #b8860b;
 }
 #punishment-yes:active, #challenge1-feedback-button:active, #explanation-continue:active { transform: translateY(3px); border-bottom-width: 2px; }
-
-/* Repesca Overlay */
 .repesca-content { position: relative; border: 4px solid #FFD700; background-color: rgba(0, 0, 0, 0.98); padding: 40px 20px; max-width: 85%; text-align: center; border-radius: 15px; box-shadow: 0 0 30px rgba(255, 215, 0, 0.3); }
 .close-btn-circle { position: absolute; top: -20px; right: -20px; width: 40px; height: 40px; background: linear-gradient(145deg, #FFD700, #FFA500); color: #000; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 1.2em; font-family: 'BroadwayCustom', sans-serif; cursor: pointer; border: 3px solid #fff; box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); z-index: 101; }
 #repesca-text { font-family: 'BroadwayCustom', sans-serif; color: #FFD700; font-size: 1.4em; line-height: 1.4; text-shadow: 2px 2px 4px #000; }
