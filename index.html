@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#000000">
-    
     <title>Retos de tu Amigo Invisible</title>
-    <link rel="stylesheet" href="style.css?v=tablet_layout_fix">
+    <link rel="stylesheet" href="style.css?v=tablet_final_structure">
 </head>
 <body>
+    <button id="fullscreen-btn">⛶</button>
+
     <div id="debug-nav"></div>
     <div id="confetti-container"></div>
     
@@ -87,13 +84,10 @@
         
         <div id="challenge-4-content" class="bottom-content">
             <h3 id="challenge-4-theme"></h3>
-            
             <h3 id="person-selector-title-4" class="person-selector-title">ELIGE UN AYUDANTE:</h3>
             <div id="person-selector-container-4"></div>
-            
             <p id="challenge-4-question-text" style="display:none;"></p> 
             <div id="answer-grid-container-4"></div>
-            
             <p id="challenge-4-feedback"></p>
         </div>
     </div>
@@ -126,6 +120,7 @@
     </div>
 
     <div id="progress-marker"></div>
+
     <div id="progress-bar-container">
         <div class="trophy-icon-small">🏆</div>
         <div id="retro-health-bar">
@@ -177,6 +172,6 @@
     
     <img id="final-gift-image" src="regalo.png" alt="Tu Regalo">
 
-    <script src="script.js?v=tablet_layout_fix"></script>
+    <script src="script.js?v=tablet_final_structure"></script>
 </body>
 </html>

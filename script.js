@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- VARIABLES GLOBALES ---
     const numeroTotalDeRetos = 5; 
     
-    // --- GUION LINEAL ---
+    // --- GUION DEL JUEGO ---
     const guion = [
         /* 0 */ { texto: "Hola Andrea" },
         /* 1 */ { texto: "Un año más<br>¡te toca trabajar!" },
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         /* 49 */ { texto: "¿Preparada?", boton: "Avanzar" }, 
         /* 50 */ { texto: "Ah! Una cosa más, que se me olvidaba", boton: "Avanzar" }, 
         
-        /* 51 */ 
+        /* 51: BARRA DE VIDA RETO 4 */ 
         { 
             texto: "El resultado de éste reto es más importante que los anteriores, ya que la cantidad de aciertos determinará la dificultad del último reto.",
             boton: "Continuar..."
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         /* 54 */ { tipo: "trigger", reto: 4 },
         
-        // --- INTRODUCCIÓN AL RETO 5 (POST RETO 4) ---
+        // --- TRANSICIÓN RETO 4 -> 5 ---
         /* 55 */ { texto: "¡Patidifuso me hallo!<br>¿¡Cómo narices has acertado todas?!" }, 
         /* 56 */ { texto: "¡Impresionante!<br>No habría apostado a tantos aciertos jamás, la verdad" }, 
         /* 57 */ { texto: "Bueno, un aprobado. <br> No está nada mal, no era fácil" }, 
@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         /* 64 */ { texto: "Una detalle importante: no sabes qué preguntas te van a venir, pero hay una cosa que sí sabes." }, 
         
+        // PAUSAS DRAMÁTICAS
         /* 65 */ { texto: "¡Vas a tener que dar detalles de 4 de esas 8!|<br>Elige bien qué 4 preguntas realmente no quieres dar más detalles que el Si o No" },
         
         /* 66 */ { texto: "¿Preparada?|<br>¿Igual deberías haberte tomado una copita antes de empezar esto, no?😅", boton: "Avanzar" },
@@ -104,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         /* 67 */ { tipo: "trigger", reto: 5 } 
     ];
 
-    // --- ARRAYS DE DATOS ---
+    // --- DATOS DE LOS RETOS ---
     const personasReto2 = ["Carlos", "Carmen", "Elena", "Jorge", "Coque", "Fer", "Elena Mo.", "Marta"];
     const preguntasReto2 = [
         { id: 1, texto: "¿Qué preferirías comer?", opciones: ["Macarrones con queso", "Solomillo con patatas", "Salmón con verduritas", "Cocido de la abuela"], grid: "grid-2x2", picks: 1, andreaPicks: 1, allCorrect: false, invitedAnswer: [], status: 'pending', answeredBy: '' },
@@ -141,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { tematica: "Geografía", enunciado: "¿Qué país tiene más husos horarios?", opciones: ["Francia", "Estados Unidos", "Rusia", "Brasil"], correcta: 0, aclaracion: "Aunque Rusia es el país más grande por extensión, Francia es el país con más husos horarios (12 o 13 según la época del año). Esto se debe a sus territorios de ultramar repartidos por el mundo (Polinesia Francesa, Guayana, Guadalupe, etc.).<br>EEUU tiene 11 husos horarios y Rusia 11 completan el podio. Brasil es el noveno con 4 husos horarios." }
     ];
 
-    // RETO 5
+    // RETO 5 (Preguntas Reales)
     const preguntasReto5 = [
         { id: 1, texto: "¿Alguna vez le has liado alguna 'gorda' a alguno de tus hermanos o les ha caído una bronca importante y a día de hoy no saben que tú has sido la culpable?" },
         { id: 2, texto: "¿Alguna vez has fingido estar enferma para cancelar algún plan que te daba pereza con alguno de los presentes?" },
@@ -157,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let intentosFallidos = 0;
     let currentChallenge = 0;
     
-    // ESTADOS
     let reto2State = { currentQuestion: 0, lives: 3, correctAnswers: 0, availablePeople: [...personasReto2], andreasAnswers: [], currentTurn: 'andrea', punishments: 0, isLooping: false, vidasGastadas: 0, totalLivesLost: 0 };
     let reto3State = { currentQuestion: 0, lives: 3, correctAnswers: 0, availablePeople: [...personasReto3], andreasChoice: null, jokers: 3, punishments: 0, isLooping: false, currentTurn: 'andrea-assign-person', vidasGastadas: 0, totalLivesLost: 0 };
     let reto4State = { currentQuestion: 0, health: 8, correctAnswers: 0, availablePeople: [...personasReto4], currentTurn: 'theme-view' };
@@ -228,16 +228,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const repescaText = document.getElementById('repesca-text');
     const repescaCloseBtn = document.getElementById('repesca-close-btn');
     const finalGiftImage = document.getElementById('final-gift-image');
-    
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+
     jokerButtonContainer.addEventListener('click', usarJokerReto3);
     document.getElementById('login-container').style.display = 'none';
     
-    // Listeners Reto 5
+    // Listeners
     if (btnExplainYes) btnExplainYes.onclick = () => seleccionarExplicacion(true);
     if (btnExplainNo) btnExplainNo.onclick = () => seleccionarExplicacion(false);
     if (repescaCloseBtn) repescaCloseBtn.onclick = cerrarRepescaEIniciarBucle;
+    if (fullscreenBtn) fullscreenBtn.onclick = toggleFullScreen;
 
-    // FIX: Fullscreen Scroll Hack
+    // Fullscreen Helper
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.log(`Error enabling fullscreen: ${err.message}`);
+            });
+            fullscreenBtn.style.display = 'none'; // Ocultar al activar
+        }
+    }
+
+    // Scroll Hack Mobile
     window.scrollTo(0,1);
     
     iniciarJuego();
@@ -282,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Post Reto 4 (55-58)
         const fallosR4 = 8 - (reto4State.health || 8);
-        
         if (pasoActual === 55 && fallosR4 === 0) { renderizarTexto(currentStep.texto, currentStep); return; }
         else if (pasoActual === 55 && fallosR4 > 0) { pasoActual++; mostrarSiguienteMensaje(); return; } 
         
@@ -320,15 +331,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const span = document.createElement('span');
                     span.textContent = char;
                     span.style.visibility = 'hidden';
-                    
-                    if (char === '|') {
-                        span.textContent = ''; 
-                        span.dataset.pause = 1000;
-                    } else if (char === '~') {
-                        span.textContent = '';
-                        span.dataset.pause = 500;
-                    }
-                    
+                    if (char === '|') { span.textContent = ''; span.dataset.pause = 1000; } 
+                    else if (char === '~') { span.textContent = ''; span.dataset.pause = 500; }
                     lineaDiv.appendChild(span);
                 });
             }
@@ -340,20 +344,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function escribirTexto(index, stepObj) {
         const spans = messageText.querySelectorAll('span:not(.icon-diana)');
-        
         if (index < spans.length) {
             const span = spans[index];
             let delay = 27;
-            
-            if (span.classList.contains('html-content')) {
-                span.style.visibility = 'visible';
-                delay = 500; 
-            } else if (span.dataset.pause) {
-                delay = parseInt(span.dataset.pause);
-            } else {
-                span.style.visibility = 'visible';
-            }
-            
+            if (span.classList.contains('html-content')) { span.style.visibility = 'visible'; delay = 500; } 
+            else if (span.dataset.pause) { delay = parseInt(span.dataset.pause); } 
+            else { span.style.visibility = 'visible'; }
             setTimeout(() => escribirTexto(index + 1, stepObj), delay); 
         } else {
             ejecutarEfectosFinTexto(stepObj);
@@ -397,10 +393,32 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarSiguienteMensaje();
     });
 
-    // --- FUNCIONES RETOS 1, 2, 3 ---
+    // --- RETO 1 (TOUCH & MOUSE) ---
     let tarjetaSiendoArrastrada = null; let sourceSlot = null;
-    function iniciarReto1(){currentChallenge=1;appContainer.style.opacity='0';continueButton.style.display='none';if(progressMarker.children.length===0)crearMarcadorProgreso();progressMarker.style.display='none';challengeTitle.textContent="RETO 1";challengeTitle.style.display='block';setTimeout(()=>{appContainer.style.display='none';challengeContainer.style.display='flex';challengeContainer.style.opacity='1';},500);crearTableroJuego();intentosFallidos=0;validateButton.style.display='block';validateButton.onclick=validarRespuestas;}
-    function crearTableroJuego(){const regaladores=["Carlos","Carmen","Elena","Jorge","Andrea","Coque","Fer","Elena Mo.","Marta"];const regalados=[...regaladores].sort(()=>Math.random()-0.5);const colFija=document.getElementById('fixed-column');const colArrastrable=document.getElementById('card-source-right');colFija.innerHTML='';colArrastrable.innerHTML='';regalados.forEach((nombre,index)=>{colArrastrable.appendChild(crearTarjeta(nombre,`right-${index}`));});for(let i=0;i<9;i++){const row=document.createElement('div');row.className='drop-row';const fixedName=document.createElement('div');fixedName.className='fixed-name';fixedName.textContent=regaladores[i];fixedName.dataset.name=regaladores[i];const arrow=document.createElement('span');arrow.className='arrow';arrow.innerHTML='&#10140;';const slotRight=document.createElement('div');slotRight.className='drop-slot slot-right';row.appendChild(fixedName);row.appendChild(arrow);row.appendChild(slotRight);colFija.appendChild(row);}const todosLosSlots=document.querySelectorAll('.drop-slot, .card-column');todosLosSlots.forEach(slot=>{slot.addEventListener('dragover',onDragOver);slot.addEventListener('drop',onDrop);});}
+    
+    function iniciarReto1(){
+        currentChallenge=1;appContainer.style.opacity='0';continueButton.style.display='none';
+        if(progressMarker.children.length===0)crearMarcadorProgreso();progressMarker.style.display='none';
+        challengeTitle.textContent="RETO 1";challengeTitle.style.display='block';
+        setTimeout(()=>{appContainer.style.display='none';challengeContainer.style.display='flex';challengeContainer.style.opacity='1';},500);
+        crearTableroJuego();intentosFallidos=0;validateButton.style.display='block';validateButton.onclick=validarRespuestas;
+    }
+    
+    function crearTableroJuego(){
+        const regaladores=["Carlos","Carmen","Elena","Jorge","Andrea","Coque","Fer","Elena Mo.","Marta"];
+        const regalados=[...regaladores].sort(()=>Math.random()-0.5);
+        const colFija=document.getElementById('fixed-column');
+        const colArrastrable=document.getElementById('card-source-right');
+        colFija.innerHTML='';colArrastrable.innerHTML='';
+        regalados.forEach((nombre,index)=>{colArrastrable.appendChild(crearTarjeta(nombre,`right-${index}`));});
+        for(let i=0;i<9;i++){
+            const row=document.createElement('div');row.className='drop-row';
+            const fixedName=document.createElement('div');fixedName.className='fixed-name';fixedName.textContent=regaladores[i];fixedName.dataset.name=regaladores[i];
+            const arrow=document.createElement('span');arrow.className='arrow';arrow.innerHTML='&#10140;';
+            const slotRight=document.createElement('div');slotRight.className='drop-slot slot-right';
+            row.appendChild(fixedName);row.appendChild(arrow);row.appendChild(slotRight);colFija.appendChild(row);
+        }
+    }
     
     function crearTarjeta(nombre,id){
         const card=document.createElement('div');card.className='card';card.id=id;card.textContent=nombre;card.dataset.name=nombre;card.draggable=true;
@@ -411,23 +429,89 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
+    // Mouse Handlers
     function onDragStart(e){tarjetaSiendoArrastrada=e.target;sourceSlot=e.target.parentElement;e.target.classList.add('dragging');}
     function onDragEnd(e){e.target.classList.remove('dragging');}
-    function onDragOver(e){e.preventDefault();}
-    function onDrop(e){e.preventDefault();const dropZone=e.target.closest('.drop-slot, .card-column');if(!dropZone || !tarjetaSiendoArrastrada) return;const existingCard=dropZone.firstElementChild;if(existingCard && existingCard !== tarjetaSiendoArrastrada){sourceSlot.appendChild(existingCard);}dropZone.appendChild(tarjetaSiendoArrastrada);tarjetaSiendoArrastrada=null;}
+    // Global Drop Handler (Mouse)
+    document.addEventListener('dragover', (e) => e.preventDefault());
+    document.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const dropZone = e.target.closest('.drop-slot, .card-column');
+        if (!dropZone || !tarjetaSiendoArrastrada) return;
+        const existingCard = dropZone.firstElementChild;
+        if (existingCard && existingCard !== tarjetaSiendoArrastrada) {
+             sourceSlot.appendChild(existingCard);
+        }
+        dropZone.appendChild(tarjetaSiendoArrastrada);
+        tarjetaSiendoArrastrada = null;
+    });
 
+    // Touch Handlers
     let initialTouchX = 0; let initialTouchY = 0;
-    function handleTouchStart(e) { e.preventDefault(); tarjetaSiendoArrastrada = e.target; sourceSlot = e.target.parentElement; const touch = e.touches[0]; initialTouchX = touch.clientX; initialTouchY = touch.clientY; tarjetaSiendoArrastrada.classList.add('dragging'); tarjetaSiendoArrastrada.style.position = 'fixed'; tarjetaSiendoArrastrada.style.left = (touch.clientX - tarjetaSiendoArrastrada.offsetWidth/2) + 'px'; tarjetaSiendoArrastrada.style.top = (touch.clientY - tarjetaSiendoArrastrada.offsetHeight/2) + 'px'; tarjetaSiendoArrastrada.style.zIndex = 1000; }
-    function handleTouchMove(e) { e.preventDefault(); if (!tarjetaSiendoArrastrada) return; const touch = e.touches[0]; tarjetaSiendoArrastrada.style.left = (touch.clientX - tarjetaSiendoArrastrada.offsetWidth/2) + 'px'; tarjetaSiendoArrastrada.style.top = (touch.clientY - tarjetaSiendoArrastrada.offsetHeight/2) + 'px'; }
-    function handleTouchEnd(e) { if (!tarjetaSiendoArrastrada) return; tarjetaSiendoArrastrada.classList.remove('dragging'); tarjetaSiendoArrastrada.style.position = ''; tarjetaSiendoArrastrada.style.left = ''; tarjetaSiendoArrastrada.style.top = ''; tarjetaSiendoArrastrada.style.zIndex = ''; const touch = e.changedTouches[0]; tarjetaSiendoArrastrada.style.display = 'none'; let elemBelow = document.elementFromPoint(touch.clientX, touch.clientY); tarjetaSiendoArrastrada.style.display = ''; if (!elemBelow) return; let dropSlot = elemBelow.closest('.drop-slot') || elemBelow.closest('.card-column'); if (dropSlot) { const existingCard = dropSlot.firstElementChild; if (existingCard && existingCard !== tarjetaSiendoArrastrada) { sourceSlot.appendChild(existingCard); } dropSlot.appendChild(tarjetaSiendoArrastrada); } tarjetaSiendoArrastrada = null; }
+    function handleTouchStart(e) {
+        e.preventDefault(); tarjetaSiendoArrastrada = e.target; sourceSlot = e.target.parentElement;
+        const touch = e.touches[0];
+        tarjetaSiendoArrastrada.classList.add('dragging');
+        tarjetaSiendoArrastrada.style.position = 'fixed';
+        tarjetaSiendoArrastrada.style.left = (touch.clientX - tarjetaSiendoArrastrada.offsetWidth/2) + 'px';
+        tarjetaSiendoArrastrada.style.top = (touch.clientY - tarjetaSiendoArrastrada.offsetHeight/2) + 'px';
+        tarjetaSiendoArrastrada.style.zIndex = 1000;
+    }
+    function handleTouchMove(e) {
+        e.preventDefault(); if (!tarjetaSiendoArrastrada) return;
+        const touch = e.touches[0];
+        tarjetaSiendoArrastrada.style.left = (touch.clientX - tarjetaSiendoArrastrada.offsetWidth/2) + 'px';
+        tarjetaSiendoArrastrada.style.top = (touch.clientY - tarjetaSiendoArrastrada.offsetHeight/2) + 'px';
+    }
+    function handleTouchEnd(e) {
+        if (!tarjetaSiendoArrastrada) return;
+        tarjetaSiendoArrastrada.classList.remove('dragging');
+        tarjetaSiendoArrastrada.style.position = '';
+        tarjetaSiendoArrastrada.style.left = '';
+        tarjetaSiendoArrastrada.style.top = '';
+        tarjetaSiendoArrastrada.style.zIndex = '';
+        const touch = e.changedTouches[0];
+        tarjetaSiendoArrastrada.style.display = 'none';
+        let elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+        tarjetaSiendoArrastrada.style.display = '';
+        if (!elemBelow) return;
+        let dropSlot = elemBelow.closest('.drop-slot') || elemBelow.closest('.card-column');
+        if (dropSlot) {
+            const existingCard = dropSlot.firstElementChild;
+            if (existingCard && existingCard !== tarjetaSiendoArrastrada) {
+                sourceSlot.appendChild(existingCard);
+            }
+            dropSlot.appendChild(tarjetaSiendoArrastrada);
+        }
+        tarjetaSiendoArrastrada = null;
+    }
 
-    function validarRespuestas(){const soluciones=new Map([['Carlos','Jorge'],['Carmen','Fer'],['Elena','Coque'],['Jorge','Andrea'],['Andrea','Elena Mo.'],['Coque','Carlos'],['Fer','Marta'],['Elena Mo.','Elena'],['Marta','Carmen']]);let aciertos=0;let paresEncontrados=new Map();document.querySelectorAll('.drop-row').forEach(row=>{const regalador=row.querySelector('.fixed-name').dataset.name;const regaladoEl=row.querySelector('.slot-right').firstElementChild;if(regalador&&regaladoEl){paresEncontrados.set(regalador,regaladoEl.dataset.name);}});if(paresEncontrados.size===9){soluciones.forEach((regalado,regalador)=>{if(paresEncontrados.get(regalador)===regalado)aciertos++;});}if(aciertos===9){feedbackTitle.textContent="¡RETO COMPLETADO!";feedbackTitle.style.color="#00FF00";feedbackMessage.innerHTML="";feedbackButton.textContent="Continuar";feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';iniciarConfeti();setTimeout(()=>{completarReto(1);},500);};feedbackOverlay.style.display='flex';}else{intentosFallidos++;feedbackTitle.textContent=`Intento fallido ${intentosFallidos}/3`;feedbackTitle.style.color="#FFD700";switch(intentosFallidos){case 1:feedbackMessage.innerHTML="Ten cuidado...";feedbackButton.textContent="¡Vamos!";break;case 2:feedbackMessage.innerHTML="¡Última oportunidad!";feedbackButton.textContent="¡Concéntrate!";break;case 3:default:feedbackMessage.innerHTML="LAMENTABLE<br>Tienes una última oportunidad, pero ésta vez pide ayuda hija...";feedbackButton.textContent="Ayuda...";break;}feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';};feedbackOverlay.style.display='flex';}}
+    function validarRespuestas(){
+        const soluciones=new Map([['Carlos','Jorge'],['Carmen','Fer'],['Elena','Coque'],['Jorge','Andrea'],['Andrea','Elena Mo.'],['Coque','Carlos'],['Fer','Marta'],['Elena Mo.','Elena'],['Marta','Carmen']]);
+        let aciertos=0;let paresEncontrados=new Map();
+        document.querySelectorAll('.drop-row').forEach(row=>{
+            const regalador=row.querySelector('.fixed-name').dataset.name;
+            const regaladoEl=row.querySelector('.slot-right').firstElementChild;
+            if(regalador&&regaladoEl){paresEncontrados.set(regalador,regaladoEl.dataset.name);}
+        });
+        if(paresEncontrados.size===9){soluciones.forEach((regalado,regalador)=>{if(paresEncontrados.get(regalador)===regalado)aciertos++;});}
+        
+        if(aciertos===9){
+            feedbackTitle.textContent="¡RETO COMPLETADO!";feedbackTitle.style.color="#00FF00";feedbackMessage.innerHTML="";feedbackButton.textContent="Continuar";
+            feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';iniciarConfeti();setTimeout(()=>{completarReto(1);},500);};feedbackOverlay.style.display='flex';
+        }else{
+            intentosFallidos++;feedbackTitle.textContent=`Intento fallido ${intentosFallidos}/3`;feedbackTitle.style.color="#FFD700";
+            switch(intentosFallidos){case 1:feedbackMessage.innerHTML="Ten cuidado...";feedbackButton.textContent="¡Vamos!";break;case 2:feedbackMessage.innerHTML="¡Última oportunidad!";feedbackButton.textContent="¡Concéntrate!";break;case 3:default:feedbackMessage.innerHTML="LAMENTABLE<br>Tienes una última oportunidad, pero ésta vez pide ayuda hija...";feedbackButton.textContent="Ayuda...";break;}
+            feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';};feedbackOverlay.style.display='flex';
+        }
+    }
+    
     function crearMarcadorProgreso(){progressMarker.innerHTML='';for(let i=1;i<=numeroTotalDeRetos;i++){const numSpan=document.createElement('span');numSpan.className='progress-number';numSpan.id=`progress-number-${i}`;numSpan.textContent=i;progressMarker.appendChild(numSpan);}progressMarker.style.display='block';}
     function marcarRetoCompletado(num){const numero=document.getElementById(`progress-number-${num}`);if(numero){numero.classList.add('completed');numero.style.transform='scale(1)';requestAnimationFrame(()=>{numero.style.transform='scale(1.2)';setTimeout(()=>{numero.style.transform='scale(1)';},500);});}}
     function iniciarConfeti(){const confettiContainer=document.getElementById('confetti-container');confettiContainer.innerHTML='';for(let i=0;i<100;i++){const piece=document.createElement('div');piece.className='confetti-piece';piece.style.left=`${Math.random()*100}vw`;piece.style.backgroundColor=i%2===0?'#FFD700':'#FFC0CB';piece.style.animationDelay=`${Math.random()*5}s`;piece.style.height=`${Math.floor(Math.random()*10)+10}px`;piece.style.width=`${Math.floor(Math.random()*5)+5}px`;confettiContainer.appendChild(piece);}}
     function completarReto(n){challengeContainer.style.opacity='0';challengeTitle.style.display='none';setTimeout(()=>{challengeContainer.style.display='none';appContainer.style.display='flex';appContainer.style.opacity='0';progressMarker.style.display='block';marcarRetoCompletado(n);requestAnimationFrame(()=>{appContainer.style.opacity='1';});if(intentosFallidos===0)pasoActual=17;else if(intentosFallidos===1)pasoActual=18;else if(intentosFallidos===2)pasoActual=19;else pasoActual=20;mostrarSiguienteMensaje();},500);}
 
-    // --- RETO 2 ---
+    // --- RETO 2 (CORREGIDO) ---
     function iniciarReto2(){currentChallenge=2;appContainer.style.opacity='0';continueButton.style.display='none';progressMarker.style.display='none';challengeTitle.textContent="RETO 2";challengeTitle.style.display='block';setTimeout(()=>{appContainer.style.display='none';challengeContainer2.style.display='flex';challengeContainer2.style.opacity='1';},500);reto2State.currentQuestion=0;reto2State.lives=3;reto2State.correctAnswers=0;reto2State.availablePeople=[...personasReto2];reto2State.punishments=0;reto2State.isLooping=false;preguntasReto2.forEach(p=>{p.status='pending';p.invitedAnswer=[];p.answeredBy='';});actualizarUIReto2();mostrarPreguntaReto2();}
     function actualizarUIReto2(){livesContainer.innerHTML='';for(let i=0;i<3;i++){const heart=document.createElement('span');heart.className='heart';heart.id=`heart-${i}`;heart.textContent='❤️';if(i>=reto2State.lives)heart.classList.add('lost');livesContainer.appendChild(heart);}trophyContainer.innerHTML='';preguntasReto2.forEach((pregunta,index)=>{const trophy=document.createElement('span');trophy.className='trophy';trophy.id=`trophy-${index}`;trophy.textContent='🏆';if(pregunta.status==='correct')trophy.classList.add('correct');if(pregunta.status==='failed')trophy.classList.add('failed');trophyContainer.appendChild(trophy);});}
     function mostrarPreguntaReto2(){if(reto2State.isLooping){let nextQ=reto2State.currentQuestion;while(preguntasReto2[nextQ].status==='correct'){nextQ=(nextQ+1)%preguntasReto2.length;}reto2State.currentQuestion=nextQ;}reto2State.currentTurn='andrea';const pregunta=preguntasReto2[reto2State.currentQuestion];challengeSubtitle.textContent=`Pregunta ${pregunta.id}`;if(reto2State.isLooping){challenge2QuestionText.innerHTML=`RECORDATORIO: ESTA LA RESPONDIÓ ${pregunta.answeredBy}.<br><br>${pregunta.texto}`;}else{challenge2QuestionText.innerHTML=pregunta.texto;}challenge2Feedback.innerHTML='';challenge2Button.style.visibility='hidden';answerGridContainer.innerHTML='';if(reto2State.isLooping){mostrarOpcionesAndrea();return;}personSelectorTitle.textContent='ELIGE A UNA PERSONA:';personSelectorTitle.style.display='block';personSelectorContainer.innerHTML='';personasReto2.forEach(nombre=>{const card=document.createElement('div');card.className='person-card';card.textContent=nombre;if(reto2State.availablePeople.includes(nombre)){card.onclick=()=>seleccionarPersona(nombre);}else{card.classList.add('disabled');}personSelectorContainer.appendChild(card);});}
@@ -438,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function guardarRespuestaInvitado(){const selectedCards=answerGridContainer.querySelectorAll('.selected');const pregunta=preguntasReto2[reto2State.currentQuestion];pregunta.invitedAnswer=[];selectedCards.forEach(card=>{pregunta.invitedAnswer.push(card.textContent);});mostrarOpcionesAndrea();}
     function mostrarOpcionesAndrea(){reto2State.currentTurn='andrea-reveal';const pregunta=preguntasReto2[reto2State.currentQuestion];if(!reto2State.isLooping){challenge2QuestionText.innerHTML="¡TU TURNO, ANDREA!<br>INTENTA ACERTAR.";}challenge2Button.textContent="Validar";challenge2Button.style.visibility='hidden';personSelectorContainer.innerHTML='';personSelectorTitle.style.display='none';crearCuadriculaRespuestas(pregunta);}
     
-    // CORRECCIÓN VISUAL RETO 2 (Q6 y Q8)
+    // CORRECCIÓN VISUAL Y LÓGICA RETO 2
     function validarRespuestaAndrea(){
         answerGridContainer.querySelectorAll('.answer-card').forEach(card=>card.onclick=null);
         const selectedCards=answerGridContainer.querySelectorAll('.selected');
@@ -447,38 +531,72 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const pregunta=preguntasReto2[reto2State.currentQuestion];
         let isCorrect=false;
+        
+        // Comprobación estricta
         if(pregunta.allCorrect){isCorrect=true;}
-        else if(pregunta.id===6){isCorrect=pregunta.invitedAnswer.every(answer=>reto2State.andreasAnswers.includes(answer));}
+        else if(pregunta.id===6){
+            // Ambas deben estar
+            const allCorrectIncluded = pregunta.invitedAnswer.every(ans => reto2State.andreasAnswers.includes(ans));
+            isCorrect = allCorrectIncluded && (reto2State.andreasAnswers.length === pregunta.invitedAnswer.length);
+        }
         else{isCorrect=pregunta.invitedAnswer.length>0&&reto2State.andreasAnswers.length>0&&pregunta.invitedAnswer[0]===reto2State.andreasAnswers[0];}
         
         setTimeout(()=>{
             const trophy=document.getElementById(`trophy-${reto2State.currentQuestion}`);
+            
+            // Feedback visual coloreado
             const allCards = answerGridContainer.querySelectorAll('.answer-card');
             allCards.forEach(card => {
                 const text = card.textContent;
                 const wasSelected = card.classList.contains('selected');
+                
                 if (pregunta.allCorrect) {
                     card.classList.remove('selected'); card.classList.add('correct'); card.classList.add('blink-effect');
                 } else {
                     if (pregunta.invitedAnswer.includes(text)) {
+                        // ERA CORRECTA
                         card.classList.remove('selected'); card.classList.add('correct'); card.classList.add('blink-effect');
                     } else if (wasSelected) {
+                        // ERA INCORRECTA Y SE ELIGIÓ
                         card.classList.remove('selected'); card.classList.add('wrong');
                     }
                 }
             });
-            if(isCorrect){reto2State.correctAnswers++;pregunta.status='correct';challenge2Feedback.innerHTML="¡CORRECTO!";challenge2Feedback.className='feedback-correct';trophy.classList.add('correct');}
-            else{reto2State.lives--;reto2State.totalLivesLost++;pregunta.status='failed';challenge2Feedback.innerHTML="¡FALLO!";challenge2Feedback.className='feedback-wrong';trophy.classList.add('failed');const heart=document.getElementById(`heart-${reto2State.lives}`);if(heart)heart.classList.add('lost');}
-            setTimeout(()=>{challenge2Feedback.innerHTML='';comprobarEstadoJuego();},3000);
+
+            if(isCorrect){
+                reto2State.correctAnswers++;
+                pregunta.status='correct';
+                challenge2Feedback.innerHTML="¡CORRECTO!";
+                challenge2Feedback.className='feedback-correct';
+                trophy.classList.add('correct');
+            }else{
+                reto2State.lives--;
+                reto2State.totalLivesLost++; 
+                pregunta.status='failed';
+                challenge2Feedback.innerHTML="¡FALLO!";
+                challenge2Feedback.className='feedback-wrong';
+                trophy.classList.add('failed');
+                const heart=document.getElementById(`heart-${reto2State.lives}`);
+                if(heart)heart.classList.add('lost');
+            }
+            
+            setTimeout(()=>{
+                challenge2Feedback.innerHTML='';
+                comprobarEstadoJuego();
+            },3000);
         },1000);
     }
-    
+
     function comprobarEstadoJuego(){
         if(reto2State.lives<=0&&reto2State.correctAnswers<5){mostrarCastigo();return;}
+        
         let allAnswered=preguntasReto2.every(p=>p.status!=='pending');
+        
         if(allAnswered){
-            if(reto2State.correctAnswers>=5){terminarReto2(true);}
-            else{
+            if(reto2State.correctAnswers>=5){
+                terminarReto2(true);
+            } else {
+                // BUCLE OBLIGATORIO SI < 5
                 reto2State.isLooping=true;
                 let firstFailed=0;
                 while(preguntasReto2[firstFailed].status==='correct'){firstFailed++;}
@@ -488,13 +606,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return;
         }
+
         if(reto2State.isLooping){
             if(reto2State.correctAnswers>=5){terminarReto2(true);return;}
             let nextQ=(reto2State.currentQuestion+1)%preguntasReto2.length;
             let gaveFullLoop=false;
             while(preguntasReto2[nextQ].status==='correct'){
                 nextQ=(nextQ+1)%preguntasReto2.length;
-                if(nextQ===0){if(reto2State.currentQuestion===preguntasReto2.length-1||preguntasReto2.every(p=>p.status==='correct')){gaveFullLoop=true;break;}}
+                if(nextQ===0){
+                    if(reto2State.currentQuestion===preguntasReto2.length-1||preguntasReto2.every(p=>p.status==='correct')){
+                        gaveFullLoop=true;break;
+                    }
+                }
             }
             if(gaveFullLoop){terminarReto2(reto2State.correctAnswers>=5);return;}
             proximaPreguntaIndex=nextQ;
@@ -525,6 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function mostrarCastigo(){
         punishmentOverlay.style.display='flex';
+        // SOLO botón SI
         const btnYes = document.getElementById('punishment-yes');
         btnYes.onclick=()=>{
             punishmentOverlay.style.display='none';
@@ -536,15 +660,34 @@ document.addEventListener('DOMContentLoaded', () => {
     function crearBotonesDebug() {const nav=document.getElementById('debug-nav');nav.innerHTML='';for(let i=1;i<=5;i++){const btn=document.createElement('button');btn.className='debug-btn';btn.textContent=i;btn.onclick=()=>saltarAReto(i);nav.appendChild(btn);if(i<5){const btnPost=document.createElement('button');btnPost.className='debug-btn';btnPost.textContent=`${i}-${i+1}`;btnPost.onclick=()=>saltarAPostReto(i);nav.appendChild(btnPost);}}}
     function saltarAReto(num){appContainer.style.opacity='0';appContainer.style.display='none';challengeContainer.style.opacity='0';challengeContainer.style.display='none';challengeContainer2.style.opacity='0';challengeContainer2.style.display='none';challengeContainer3.style.opacity='0';challengeContainer3.style.display='none';challengeContainer4.style.opacity='0';challengeContainer4.style.display='none';challengeContainer5.style.opacity='0';challengeContainer5.style.display='none';punishmentOverlay.style.display='none';continueButton.style.display='none';challengeTitle.style.display='none';progressMarker.style.display='none';feedbackOverlay.style.display='none';if(progressMarker.children.length===0)crearMarcadorProgreso();progressMarker.style.display='block';for(let i=1;i<num;i++){marcarRetoCompletado(i);}if(num===1){pasoActual=15;}else if(num===2){pasoActual=28;}else if(num===3){pasoActual=40;}else if(num===4){iniciarReto4();return;}else if(num===5){iniciarReto5();return;}else{pasoActual=38;}mostrarSiguienteMensaje();}
     function saltarAPostReto(num){
-        appContainer.style.opacity='0';appContainer.style.display='none';challengeContainer.style.opacity='0';challengeContainer.style.display='none';challengeContainer2.style.opacity='0';challengeContainer2.style.display='none';challengeContainer3.style.opacity='0';challengeContainer3.style.display='none';challengeContainer4.style.opacity='0';challengeContainer4.style.display='none';challengeContainer5.style.display='none';punishmentOverlay.style.display='none';continueButton.style.display='none';challengeTitle.style.display='none';progressMarker.style.display='none';feedbackOverlay.style.display='none';if(progressMarker.children.length===0)crearMarcadorProgreso();progressMarker.style.display='block';for(let i=1;i<=num;i++){marcarRetoCompletado(i);}
+        appContainer.style.opacity='0';appContainer.style.display='none';
+        challengeContainer.style.opacity='0';challengeContainer.style.display='none';
+        challengeContainer2.style.opacity='0';challengeContainer2.style.display='none';
+        challengeContainer3.style.opacity='0';challengeContainer3.style.display='none';
+        challengeContainer4.style.opacity='0';challengeContainer4.style.display='none';
+        challengeContainer5.style.display='none';
+        punishmentOverlay.style.display='none';continueButton.style.display='none';
+        challengeTitle.style.display='none';progressMarker.style.display='none';
+        feedbackOverlay.style.display='none';
+        
+        if(progressMarker.children.length===0)crearMarcadorProgreso();
+        progressMarker.style.display='block';
+        for(let i=1;i<=num;i++){marcarRetoCompletado(i);}
+        
         if(num===1){intentosFallidos=1;completarReto(1);}
         else if(num===2){reto2State.vidasGastadas=1;reto2State.totalLivesLost=1;reto2State.correctAnswers=7;reto2State.punishments=0;terminarReto2(true);}
         else if(num===3){reto3State.vidasGastadas=1;reto3State.totalLivesLost=1;reto3State.correctAnswers=8;reto3State.punishments=0;terminarReto3(true);}
-        else if(num===4){reto4State.health=8;marcarRetoCompletado(4);pasoActual=55;appContainer.style.opacity='1';appContainer.style.display='flex';mostrarSiguienteMensaje();}
+        else if(num===4){
+            reto4State.health=8; 
+            marcarRetoCompletado(4); 
+            pasoActual=55; // Salto correcto a Post-Reto 4
+            appContainer.style.opacity='1'; 
+            appContainer.style.display='flex';
+            mostrarSiguienteMensaje();
+        }
         else{pasoActual=38;}
     }
     
-    // --- RETO 3 ---
     function iniciarReto3(){currentChallenge=3;appContainer.style.opacity='0';continueButton.style.display='none';progressMarker.style.display='none';challengeTitle.textContent="RETO 3";challengeTitle.style.display='block';document.getElementById('challenge-3-ui').style.display='flex';setTimeout(()=>{appContainer.style.display='none';challengeContainer3.style.display='flex';challengeContainer3.style.opacity='1';},500);reto3State.currentQuestion=0;reto3State.lives=3;reto3State.correctAnswers=0;reto3State.availablePeople=[...personasReto3];reto3State.jokers=3;reto3State.punishments=0;reto3State.isLooping=false;preguntasReto3.forEach(p=>{p.status='pending';p.andreasChoice=null;p.answeredBy='';p.wasJokerUsed=false;});actualizarUIReto3();mostrarPreguntaReto3();}
     function actualizarUIReto3(){livesContainer3.innerHTML='';for(let i=0;i<3;i++){const heart=document.createElement('span');heart.className='heart';heart.id=`heart-3-${i}`;heart.textContent='❤️';if(i>=reto3State.lives)heart.classList.add('lost');livesContainer3.appendChild(heart);}jokerContainer.innerHTML='';for(let i=0;i<3;i++){const joker=document.createElement('span');joker.className='joker-icon';joker.id=`joker-${i}`;joker.textContent='🃏';if(i>=reto3State.jokers)joker.classList.add('used');jokerContainer.appendChild(joker);}trophyContainer3.innerHTML='';for(let i=0;i<8;i++){const trophy=document.createElement('span');trophy.className='trophy';trophy.id=`trophy-3-${i}`;trophy.textContent='🏆';if(preguntasReto3[i]){if(preguntasReto3[i].status==='correct')trophy.classList.add('correct');if(preguntasReto3[i].status==='failed')trophy.classList.add('failed');}trophyContainer3.appendChild(trophy);}}
     function mostrarPreguntaReto3(){if(reto3State.isLooping){let nextQIndex=reto3State.currentQuestion;while(preguntasReto3[nextQIndex].status==='correct'){nextQIndex=(nextQIndex+1)%preguntasReto3.length;}reto3State.currentQuestion=nextQIndex;}reto3State.currentTurn='andrea-assign-person';const pregunta=preguntasReto3[reto3State.currentQuestion];challengeSubtitle3.textContent=`Pregunta ${pregunta.id}`;if(reto3State.isLooping){challenge3QuestionText.innerHTML=`RECORDATORIO: LA RESPONDIÓ ${pregunta.answeredBy}.<br>¡INTÉNTALO DE NUEVO!<br><br>${pregunta.texto}`;crearCuadriculaRespuestas(pregunta);mostrarOpcionesInvitadoReto3();return;}else{challenge3QuestionText.innerHTML=pregunta.texto;}answerGridContainer3.innerHTML='';jokerArea.style.display='none';challenge3Feedback.innerHTML='';personSelectorTitle3.textContent='ELIGE A QUIÉN PREGUNTAR:';personSelectorTitle3.style.display='block';personSelectorContainer3.innerHTML='';personSelectorContainer3.className='grid-4x2';personasReto3.forEach(nombre=>{const card=document.createElement('div');card.className='person-card';card.textContent=nombre;if(reto3State.availablePeople.includes(nombre)){card.onclick=()=>seleccionarPersonaReto3(nombre);}else{card.classList.add('disabled');}personSelectorContainer3.appendChild(card);});}
