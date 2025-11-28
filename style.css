@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'BroadwayCustom';
-  /* Versión actualizada para forzar recarga */
-  src: url('BROADW.woff?v=final_fix_joker') format('woff'),
-       url('BROADW.ttf?v=final_fix_joker') format('truetype');
+  /* Definición robusta WOFF + TTF. ?v=final para asegurar carga */
+  src: url('BROADW.woff?v=final') format('woff'),
+       url('BROADW.ttf?v=final') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -79,7 +79,7 @@ body {
     min-width: 25px; 
 }
 
-/* --- TÍTULOS (FIJOS) --- */
+/* --- TÍTULOS (FIJOS ARRIBA) --- */
 
 #challenge-title {
     position: fixed; 
@@ -135,7 +135,7 @@ body {
     padding: 20px;
 }
 
-/* Retos: Estructura Flex Columna */
+/* Retos: Flex Columna */
 .container-challenge {
     display: flex; 
     flex-direction: column;
@@ -577,7 +577,7 @@ p:empty { min-height: 0; margin: 0; }
 .blink-attention { animation: flash-appear 1.5s ease-in-out; }
 @keyframes flash-appear { 0% { opacity: 1; } 25% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 1; } }
 
-/* --- RETO 5 --- */
+/* --- RETO 5: MARCADOR Y BOTONES --- */
 #challenge-container-5 #challenge-5-question-text { margin-top: 10px; margin-bottom: 10px; }
 #challenge-container-5 #answer-grid-container-5 { margin-bottom: 5px; }
 
@@ -610,38 +610,46 @@ p:empty { min-height: 0; margin: 0; }
 .commitment-btn .status-icon { font-size: 1.5rem; line-height: 1; }
 .blink-buttons { animation: flash-appear 1s ease-in-out 2; }
 
-/* Marcador Reto 5 */
+/* NUEVO ESTILO MARCADOR RETO 5 (NÚMEROS + ICONOS) */
 #r5-scoreboard {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 5px;
     font-family: 'Arial Black', sans-serif;
-    background: rgba(0,0,0,0.5);
-    padding: 10px;
+    background: rgba(0,0,0,0.6); /* Fondo oscuro */
+    padding: 10px 15px;
     border-radius: 8px;
+    border: 1px solid #FFD700;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.5);
 }
-.r5-row-numbers { display: flex; gap: 10px; }
+.r5-row-numbers { display: flex; gap: 12px; }
 .r5-number-box { display: flex; flex-direction: column; align-items: center; width: 30px; }
 .r5-num {
     font-size: 1.5rem;
-    color: #888; 
+    color: #888; /* Gris */
     text-shadow: 1px 1px 2px black;
     font-weight: bold;
     transition: color 0.3s;
 }
-.r5-num.yes { color: #33ff33; }
-.r5-num.no { color: #ff3333; }
-.r5-icon { font-size: 1.2rem; margin-top: 2px; }
+.r5-num.yes { color: #33ff33; } /* Verde */
+.r5-num.no { color: #ff3333; } /* Rojo */
+.r5-icon { 
+    font-size: 1.2rem; 
+    margin-top: 4px; 
+    height: 20px; /* Altura fija para evitar saltos */
+}
 .r5-req-text {
     font-size: 1rem;
     color: #FFD700;
     margin-top: 5px;
     text-transform: uppercase;
     text-shadow: 1px 1px 2px black;
+    text-align: right;
+    width: 100%;
 }
 
-/* --- JOKER (ORÍGENES: FIJO DERECHA) --- */
+/* --- JOKER (FIJO A LA DERECHA) --- */
 #joker-area { 
     display: none; 
     flex-direction: column; 
@@ -656,6 +664,7 @@ p:empty { min-height: 0; margin: 0; }
 #joker-button-container.disabled { opacity: 0.3; cursor: not-allowed; }
 #joker-button { font-size: 4rem; text-shadow: 2px 2px 4px #000; }
 #joker-button-container span { font-size: 1.2rem; text-transform: uppercase; text-shadow: 1px 1px 2px #000; }
+
 #joker-hint-container { 
     display: none; 
     color: white; 
