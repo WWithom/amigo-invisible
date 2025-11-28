@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'BroadwayCustom';
   /* Versión actualizada para forzar recarga */
-  src: url('BROADW.woff?v=final') format('woff'),
-       url('BROADW.ttf?v=final') format('truetype');
+  src: url('BROADW.woff?v=final_fix_joker') format('woff'),
+       url('BROADW.ttf?v=final_fix_joker') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -79,7 +79,7 @@ body {
     min-width: 25px; 
 }
 
-/* --- TÍTULOS (FIJOS ARRIBA) --- */
+/* --- TÍTULOS (FIJOS) --- */
 
 #challenge-title {
     position: fixed; 
@@ -135,7 +135,7 @@ body {
     padding: 20px;
 }
 
-/* Retos: Flex Columna */
+/* Retos: Estructura Flex Columna */
 .container-challenge {
     display: flex; 
     flex-direction: column;
@@ -153,8 +153,8 @@ body {
     justify-content: flex-end; 
 }
 
-/* AJUSTES ESPECÍFICOS DE ALTURA (TU PETICIÓN) */
-/* Retos 2, 3, 4: Margen de 150px para subirlos */
+/* AJUSTES ESPECÍFICOS DE ALTURA */
+/* Retos 2, 3, 4: Margen de 150px para subirlos un poco */
 #challenge-container-2, 
 #challenge-container-3, 
 #challenge-container-4 {
@@ -198,6 +198,7 @@ body {
     visibility: hidden; 
 }
 
+/* Clase para mostrar bloques HTML enteros */
 .html-content { 
     visibility: visible !important; 
     color: #FFD700; 
@@ -212,7 +213,7 @@ span.icon-diana {
 }
 
 #continue-button {
-    display: none; 
+    display: none; /* Oculto por defecto */
     position: fixed; 
     bottom: 30px; 
     right: 40px; 
@@ -443,6 +444,7 @@ span.icon-diana {
 .grid-4x2 { grid-template-columns: 1fr 1fr 1fr 1fr; }
 @media (max-width: 600px) { .grid-4x2 { grid-template-columns: 1fr 1fr; } }
 
+/* Colores de Feedback */
 .answer-card.correct { 
     background-color: #33ff33; 
     border-color: #00cc00; 
@@ -490,7 +492,7 @@ p:empty { min-height: 0; margin: 0; }
 .feedback-correct { color: #00FF00; }
 .feedback-wrong { color: #FF0000; }
 
-/* --- UI SUPERIOR --- */
+/* --- UI SUPERIOR (MARCADORES) --- */
 #challenge-2-ui, #challenge-3-ui, #challenge-5-ui {
     position: fixed; 
     top: 15px; 
@@ -575,7 +577,7 @@ p:empty { min-height: 0; margin: 0; }
 .blink-attention { animation: flash-appear 1.5s ease-in-out; }
 @keyframes flash-appear { 0% { opacity: 1; } 25% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 1; } }
 
-/* --- RETO 5: MARCADOR Y BOTONES --- */
+/* --- RETO 5 --- */
 #challenge-container-5 #challenge-5-question-text { margin-top: 10px; margin-bottom: 10px; }
 #challenge-container-5 #answer-grid-container-5 { margin-bottom: 5px; }
 
@@ -608,7 +610,7 @@ p:empty { min-height: 0; margin: 0; }
 .commitment-btn .status-icon { font-size: 1.5rem; line-height: 1; }
 .blink-buttons { animation: flash-appear 1s ease-in-out 2; }
 
-/* Estilos Marcador Reto 5 (Punto 7) */
+/* Marcador Reto 5 */
 #r5-scoreboard {
     display: flex;
     flex-direction: column;
@@ -623,7 +625,7 @@ p:empty { min-height: 0; margin: 0; }
 .r5-number-box { display: flex; flex-direction: column; align-items: center; width: 30px; }
 .r5-num {
     font-size: 1.5rem;
-    color: #888; /* Gris por defecto */
+    color: #888; 
     text-shadow: 1px 1px 2px black;
     font-weight: bold;
     transition: color 0.3s;
@@ -639,15 +641,15 @@ p:empty { min-height: 0; margin: 0; }
     text-shadow: 1px 1px 2px black;
 }
 
-/* --- JOKER CENTRADO --- */
+/* --- JOKER (ORÍGENES: FIJO DERECHA) --- */
 #joker-area { 
     display: none; 
     flex-direction: column; 
     align-items: center; 
     position: fixed; 
-    bottom: 120px; /* Centrado abajo para el Reto 3 */
-    left: 50%;
-    transform: translateX(-50%);
+    right: 5vw; /* A la derecha */
+    top: 50%;   /* Centrado vertical */
+    transform: translateY(-50%); 
     z-index: 102; 
 }
 #joker-button-container { cursor: pointer; text-align: center; color: #FFD700; }
