@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'BroadwayCustom';
-  /* Definición robusta para asegurar carga en móviles */
-  src: url('BROADW.woff?v=15') format('woff'),
-       url('BROADW.ttf?v=15') format('truetype');
+  /* Versión actualizada para forzar recarga */
+  src: url('BROADW.woff?v=final') format('woff'),
+       url('BROADW.ttf?v=final') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -79,7 +79,7 @@ body {
     min-width: 25px; 
 }
 
-/* --- TÍTULOS (FIJOS) --- */
+/* --- TÍTULOS (FIJOS ARRIBA) --- */
 
 #challenge-title {
     position: fixed; 
@@ -116,7 +116,7 @@ body {
 
 /* --- ESTRUCTURA DE CONTENEDORES --- */
 
-/* Ocultos por defecto para evitar parpadeos */
+/* Ocultos por defecto */
 .container-dialog, .container-challenge {
     position: absolute; 
     top: 0; 
@@ -135,7 +135,7 @@ body {
     padding: 20px;
 }
 
-/* Retos: Estructura base Flex Columna */
+/* Retos: Flex Columna */
 .container-challenge {
     display: flex; 
     flex-direction: column;
@@ -151,7 +151,19 @@ body {
 /* VARIACIÓN 2: Retos Preguntas (Pegados Abajo) */
 .container-challenge.bottom-aligned {
     justify-content: flex-end; 
-    padding-bottom: 20px; /* Margen mínimo de seguridad */
+}
+
+/* AJUSTES ESPECÍFICOS DE ALTURA (TU PETICIÓN) */
+/* Retos 2, 3, 4: Margen de 150px para subirlos */
+#challenge-container-2, 
+#challenge-container-3, 
+#challenge-container-4 {
+    padding-bottom: 150px; 
+}
+
+/* Reto 5: Pegado al fondo (margen mínimo) */
+#challenge-container-5 {
+    padding-bottom: 20px; 
 }
 
 /* Wrapper interno del contenido */
@@ -159,7 +171,7 @@ body {
     width: 95%; 
     max-width: 800px; 
     text-align: center;
-    margin-bottom: 5vh; /* Separación extra del borde inferior */
+    margin-bottom: 0; 
 }
 
 /* --- DIÁLOGOS Y TEXTOS --- */
@@ -321,7 +333,7 @@ span.icon-diana {
     margin: 0 auto;
     border-bottom: 5px solid #b8860b; 
     box-shadow: 0 4px 4px rgba(0,0,0,0.5);
-    display: none; /* Oculto por defecto */
+    display: none; 
 }
 
 #validate-button:active { 
@@ -372,7 +384,7 @@ span.icon-diana {
     }
 }
 
-/* Tarjetas 3D */
+/* TARJETAS 3D */
 .person-card, .answer-card {
     background: rgba(255, 215, 0, 0.9); 
     color: #4B3621; 
@@ -431,7 +443,6 @@ span.icon-diana {
 .grid-4x2 { grid-template-columns: 1fr 1fr 1fr 1fr; }
 @media (max-width: 600px) { .grid-4x2 { grid-template-columns: 1fr 1fr; } }
 
-/* Feedback Colors */
 .answer-card.correct { 
     background-color: #33ff33; 
     border-color: #00cc00; 
@@ -479,7 +490,7 @@ p:empty { min-height: 0; margin: 0; }
 .feedback-correct { color: #00FF00; }
 .feedback-wrong { color: #FF0000; }
 
-/* --- UI SUPERIOR (MARCADORES) --- */
+/* --- UI SUPERIOR --- */
 #challenge-2-ui, #challenge-3-ui, #challenge-5-ui {
     position: fixed; 
     top: 15px; 
@@ -564,60 +575,7 @@ p:empty { min-height: 0; margin: 0; }
 .blink-attention { animation: flash-appear 1.5s ease-in-out; }
 @keyframes flash-appear { 0% { opacity: 1; } 25% { opacity: 0; } 50% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 1; } }
 
-/* --- RETO 5 (NUEVO MARCADOR) --- */
-/* Contenedor principal del marcador Reto 5 */
-#r5-scoreboard {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
-    font-family: 'Arial Black', sans-serif;
-    background: rgba(0,0,0,0.5); /* Fondo suave para legibilidad */
-    padding: 10px;
-    border-radius: 8px;
-}
-
-/* Fila de Números */
-.r5-row-numbers {
-    display: flex;
-    gap: 10px;
-}
-
-/* Caja individual de cada número */
-.r5-number-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 30px;
-}
-
-/* Estilo del número */
-.r5-num {
-    font-size: 1.5rem;
-    color: #888; /* Gris por defecto */
-    text-shadow: 1px 1px 2px black;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-.r5-num.yes { color: #33ff33; } /* Verde si SÍ */
-.r5-num.no { color: #ff3333; }  /* Rojo si NO */
-
-/* Estilo del icono debajo */
-.r5-icon {
-    font-size: 1.2rem;
-    margin-top: 2px;
-}
-
-/* Texto de requerimiento */
-.r5-req-text {
-    font-size: 1rem;
-    color: #FFD700;
-    margin-top: 5px;
-    text-transform: uppercase;
-    text-shadow: 1px 1px 2px black;
-}
-
-/* Ajustes Layout Reto 5 */
+/* --- RETO 5: MARCADOR Y BOTONES --- */
 #challenge-container-5 #challenge-5-question-text { margin-top: 10px; margin-bottom: 10px; }
 #challenge-container-5 #answer-grid-container-5 { margin-bottom: 5px; }
 
@@ -649,6 +607,70 @@ p:empty { min-height: 0; margin: 0; }
 .commitment-btn .emoji-icon { font-size: 2rem; line-height: 1; } 
 .commitment-btn .status-icon { font-size: 1.5rem; line-height: 1; }
 .blink-buttons { animation: flash-appear 1s ease-in-out 2; }
+
+/* Estilos Marcador Reto 5 (Punto 7) */
+#r5-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    font-family: 'Arial Black', sans-serif;
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 8px;
+}
+.r5-row-numbers { display: flex; gap: 10px; }
+.r5-number-box { display: flex; flex-direction: column; align-items: center; width: 30px; }
+.r5-num {
+    font-size: 1.5rem;
+    color: #888; /* Gris por defecto */
+    text-shadow: 1px 1px 2px black;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+.r5-num.yes { color: #33ff33; }
+.r5-num.no { color: #ff3333; }
+.r5-icon { font-size: 1.2rem; margin-top: 2px; }
+.r5-req-text {
+    font-size: 1rem;
+    color: #FFD700;
+    margin-top: 5px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px black;
+}
+
+/* --- JOKER CENTRADO --- */
+#joker-area { 
+    display: none; 
+    flex-direction: column; 
+    align-items: center; 
+    position: fixed; 
+    bottom: 120px; /* Centrado abajo para el Reto 3 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 102; 
+}
+#joker-button-container { cursor: pointer; text-align: center; color: #FFD700; }
+#joker-button-container.disabled { opacity: 0.3; cursor: not-allowed; }
+#joker-button { font-size: 4rem; text-shadow: 2px 2px 4px #000; }
+#joker-button-container span { font-size: 1.2rem; text-transform: uppercase; text-shadow: 1px 1px 2px #000; }
+#joker-hint-container { 
+    display: none; 
+    color: white; 
+    font-family: 'Arial Black', sans-serif; 
+    text-transform: uppercase; 
+    background: rgba(0,0,0,0.9); 
+    padding: 10px; 
+    border-radius: 5px; 
+    border: 2px solid #FFD700; 
+    width: 200px; 
+    text-align: center; 
+    font-size: 0.9rem; 
+    max-height: 30vh; 
+    overflow-y: auto; 
+}
+#joker-hint-title { color: #FFD700; text-decoration: underline; font-size: 1.1rem; margin: 0; }
+#joker-hint-text { font-size: 1rem; margin: 5px 0 0 0; }
 
 /* --- OVERLAYS --- */
 #punishment-overlay, 
@@ -705,7 +727,6 @@ h2 { color: #FFD700; text-transform: uppercase; font-size: 1.8rem; margin-top: 0
     border-bottom-width: 2px; 
 }
 
-/* Overlay Repesca */
 .repesca-content { 
     position: relative; 
     border: 4px solid #FFD700; 
@@ -743,8 +764,9 @@ h2 { color: #FFD700; text-transform: uppercase; font-size: 1.8rem; margin-top: 0
     line-height: 1.4; 
     text-shadow: 2px 2px 4px #000; 
 }
+.highlight-data { color: #fff; font-size: 1.2em; text-decoration: underline; }
 
-/* --- OTROS --- */
+/* --- MARCADOR DE PÁGINAS --- */
 #progress-marker { 
     display: none; 
     position: fixed; 
@@ -766,6 +788,7 @@ h2 { color: #FFD700; text-transform: uppercase; font-size: 1.8rem; margin-top: 0
 }
 .progress-number.completed { opacity: 1; transform: scale(1.2); text-shadow: 0 0 10px #FFD700; }
 
+/* --- CONFETI INFINITO --- */
 #confetti-container { 
     position: fixed; 
     top: 0; 
@@ -794,6 +817,7 @@ h2 { color: #FFD700; text-transform: uppercase; font-size: 1.8rem; margin-top: 0
     100% { top: 110%; transform: rotate(360deg) translateX(0px); opacity: 0; } 
 }
 
+/* --- IMAGEN FINAL --- */
 #final-gift-image { 
     display: none; 
     position: fixed; 

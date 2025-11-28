@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const numeroTotalDeRetos = 5; 
     
     // --- GUION LINEAL ---
+    // Propiedad 'salto': Indica al botón a qué índice ir después, saltándose los intermedios.
     const guion = [
         /* 0 */ { texto: "Hola Andrea" },
         /* 1 */ { texto: "Un año más<br>¡te toca trabajar!" },
@@ -26,10 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
         /* 16 */ { tipo: "trigger", reto: 1 },
         
         // --- MENSAJES VARIABLES POST-RETO 1 (Indices 17-20) ---
-        /* 17 */ { texto: "Memoria de elefante<br>¡maravilloso!", boton: "Avanzar" }, 
-        /* 18 */ { texto: "Sólo 1 tropiezo<br>Parece que de memoria no vas mal", boton: "Avanzar" },
-        /* 19 */ { texto: "Bueno, no es el mejor de los comienzos, pero podría ser peor", boton: "Avanzar" },
-        /* 20 */ { texto: "Ponte las pilas que te veo que te quedas sin regalo", boton: "Avanzar" },
+        // Todos saltan al 21 para evitar leer los demás
+        /* 17 */ { texto: "Memoria de elefante<br>¡maravilloso!", boton: "Avanzar", salto: 21 }, 
+        /* 18 */ { texto: "Sólo 1 tropiezo<br>Parece que de memoria no vas mal", boton: "Avanzar", salto: 21 },
+        /* 19 */ { texto: "Bueno, no es el mejor de los comienzos, pero podría ser peor", boton: "Avanzar", salto: 21 },
+        /* 20 */ { texto: "Ponte las pilas que te veo que te quedas sin regalo", boton: "Avanzar", salto: 21 },
         
         // --- INTRO RETO 2 ---
         /* 21 */ { texto: "¿Qué te parece si vamos a por un test para ver cuánto conoces a la gente?", boton: "Avanzar" },
@@ -42,17 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
         
         /* 28 */ { tipo: "trigger", reto: 2 },
         
-        // --- MENSAJES VARIABLES POST-RETO 2 ---
-        /* 29 */ { texto: "¡INCREÍBLE!<br>PLENO DE ACIERTOS<br><span class='icon-diana'>🎯</span>" },
-        /* 30 */ { texto: "¡Bastante bien!<br>Sólo has perdido {X} vidas", boton: "Avanzar" }, 
-        /* 31 */ { texto: "Veeeeenga....<br>Sólo has perdido {X} vidas y cumplido {Y} castigos para conseguirlo 😂", boton: "Avanzar" },
+        // --- MENSAJES VARIABLES POST-RETO 2 (Indices 29-31) ---
+        // Todos saltan al 32
+        /* 29 */ { texto: "¡INCREÍBLE!<br>PLENO DE ACIERTOS<br><span class='icon-diana'>🎯</span>", boton: "Avanzar", salto: 32 },
+        /* 30 */ { texto: "¡Bastante bien!<br>Sólo has perdido {X} vidas", boton: "Avanzar", salto: 32 }, 
+        /* 31 */ { texto: "Veeeeenga....<br>Sólo has perdido {X} vidas y cumplido {Y} castigos para conseguirlo 😂", boton: "Avanzar", salto: 32 },
         
-        // --- INTRO RETO 3 (CORREGIDO ORDEN) ---
+        // --- INTRO RETO 3 ---
         /* 32 */ { texto: "Ahora que sabemos que conoces a la gente, vamos a ver cuánto te conocen ellos" },
         /* 33 */ { texto: "En el Reto 3, tendrás que conseguir que cada uno de los demás acierte tu elección" },
         /* 34 */ { texto: "Verás la pregunta y elegirás a una persona. Después, elegirás tu respuesta en secreto y le pasarás el móvil." },
         /* 35 */ { texto: "Esa persona verá las opciones y podrá pedirte un 'Joker' (¡si le dejas!)" },
-        /* 36 */ { texto: "Tendrás hasta 3 jokers que podrás utilizar para los 8, así que cuidado con quedarte sin ellos" }, // Mivido aquí
+        /* 36 */ { texto: "Tendrás hasta 3 jokers que podrás utilizar para los 8, así que cuidado con quedarte sin ellos" },
         /* 37 */ { texto: "Deberás conseguir 5 aciertos al menos para continuar en la búsqueda del regalo." },
         /* 38 */ { texto: "¿Preparada?", boton: "Avanzar" },
         
@@ -85,27 +88,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         /* 53 */ { tipo: "trigger", reto: 4 },
         
-        // --- POST RETO 4 / INTRO RETO 5 (MENSAJES VARIABLES INDICES 54-57) ---
-        /* 54 */ { texto: "¡Patidifuso me hallo!<br>¿¡Cómo narices has acertado todas?!", boton: "Avanzar" }, // 0 fallos 
-        /* 55 */ { texto: "¡Impresionante!<br>No habría apostado a tantos aciertos jamás, la verdad", boton: "Avanzar" }, // 1 fallo 
-        /* 56 */ { texto: "Bueno, un aprobado. <br> No está nada mal, no era fácil", boton: "Avanzar" }, // 2-3 fallos 
-        /* 57 */ { texto: "Lamentable jajaja pero comprensible, era el reto más difícil...<br>...¡hasta ahora!", boton: "Avanzar" }, // 4+ fallos
+        // --- POST RETO 4 / INTRO RETO 5 (Indices 54-57) ---
+        // Todos saltan al 58
+        /* 54 */ { texto: "¡Patidifuso me hallo!<br>¿¡Cómo narices has acertado todas?!", boton: "Avanzar", salto: 58 }, 
+        /* 55 */ { texto: "¡Impresionante!<br>No habría apostado a tantos aciertos jamás, la verdad", boton: "Avanzar", salto: 58 }, 
+        /* 56 */ { texto: "Bueno, un aprobado. <br> No está nada mal, no era fácil", boton: "Avanzar", salto: 58 }, 
+        /* 57 */ { texto: "Lamentable jajaja pero comprensible, era el reto más difícil...<br>...¡hasta ahora!", boton: "Avanzar", salto: 58 }, 
         
-        // --- TEXTOS RETO 5 ---
         /* 58 */ { texto: "Bueno, he de admitir que para tu suerte o tu desgracia, el reto siguiente es el mismo...<br>No importa realmente lo bien o mal que lo hayas hecho" },
         /* 59 */ { texto: "Pero si te piensas que eso lo va a hacer fácil... te espera una buena" },
         /* 60 */ { texto: "El último reto es el Reto de la Honestidad <br><br>Y como tal, te vamos a poner a prueba" },
         
-        // Mensaje regalo corregido (Punto 6: dos BR y sin subrayado ni negrita HTML extraña)
         /* 61 */ { texto: "Éste reto consta de las últimas 8 preguntas.<br>Al terminar, te espera por fin<br><br>TU REGALO", boton: "Avanzar" },
         
         /* 62 */ { texto: "Éstas preguntas hay que admitir que son comprometidas, pero espero que tu regalo lo merezca", boton: "Continuar..." },
+        
         /* 63 */ { texto: "Una detalle importante: no sabes qué preguntas te van a venir, pero hay una cosa que sí sabes." }, 
         
-        /* 64: PAUSA 1s */ 
+        /* 64 */ 
         { texto: "¡Vas a tener que dar detalles de 4 de esas 8!|<br>Elige bien qué 4 preguntas realmente no quieres dar más detalles que el Si o No" },
         
-        /* 65: PAUSA 1s */ 
+        /* 65 */ 
         { texto: "¿Preparada?|<br>¿Igual deberías haberte tomado una copita antes de empezar esto, no?😅", boton: "Avanzar" },
         
         /* 66 */ { tipo: "trigger", reto: 5 } 
@@ -258,17 +261,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.requestFullscreen().catch(err => {
                 console.log(`Error enabling fullscreen: ${err.message}`);
             });
-            fullscreenBtn.style.display = 'none'; // Ocultar al activar
+            fullscreenBtn.style.display = 'none'; 
         }
     }
 
-    // Scroll Hack Mobile
+    // Scroll Hack
     window.scrollTo(0,1);
     
     iniciarJuego();
     
     function iniciarJuego() {
-        // Limpieza inicial
+        // Limpieza inicial de contenedores
         challengeContainer.style.display = 'none';
         challengeContainer2.style.display = 'none';
         challengeContainer3.style.display = 'none';
@@ -294,28 +297,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // --- MENSAJES DINÁMICOS ---
-        // PUNTO 1: Lógica Post Reto 1
+        // PUNTO 1: Mensajes post-reto 1
         if (pasoActual >= 17 && pasoActual <= 20) {
-            // Solo mostrar el mensaje correspondiente a los fallos y saltar
             if (pasoActual === 17 && intentosFallidos === 0) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 21}); return; }
             if (pasoActual === 18 && intentosFallidos === 1) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 21}); return; }
             if (pasoActual === 19 && intentosFallidos === 2) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 21}); return; }
             if (pasoActual === 20 && intentosFallidos >= 3) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 21}); return; }
-            // Si no coincide, saltar silenciosamente al siguiente
             pasoActual++;
             mostrarSiguienteMensaje();
             return;
         }
-        
-        // Post Reto 2
+
+        // Mensajes post-reto 2
         if (pasoActual === 30 || pasoActual === 31) {
             let texto = currentStep.texto.replace('{X}', reto2State.totalLivesLost).replace('{Y}', reto2State.punishments);
             renderizarTexto(texto, currentStep);
             return;
         }
         
-        // Post Reto 3
-        if (pasoActual === 41) {
+        // Mensajes post-reto 3
+        if (pasoActual === 40) {
              let texto = "";
              if (reto3State.correctAnswers === 8) {
                  texto = "¡INCREÍBLE!<br>PLENO DE ACIERTOS<br><span class='icon-diana'>🎯</span>";
@@ -328,13 +329,16 @@ document.addEventListener('DOMContentLoaded', () => {
              return;
         }
         
-        // PUNTO 5: Post Reto 4 (Salto a 58)
-        const fallosR4 = 8 - (reto4State.health || 8);
-        if (pasoActual >= 55 && pasoActual <= 58) {
-             if (pasoActual === 55 && fallosR4 === 0) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 58}); return; }
-             if (pasoActual === 56 && fallosR4 === 1) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 58}); return; }
-             if (pasoActual === 57 && (fallosR4 === 2 || fallosR4 === 3)) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 58}); return; }
-             if (pasoActual === 58 && fallosR4 >= 4) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 58}); return; }
+        // PUNTO 5: Mensajes post-reto 4 (54-57)
+        // Health 8 = 0 errors. Health 0 = 8 errors.
+        // Fallos = 8 - health
+        const fallosR4 = 8 - (reto4State.health); 
+        
+        if (pasoActual >= 54 && pasoActual <= 57) {
+             if (pasoActual === 54 && fallosR4 === 0) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 58}); return; }
+             if (pasoActual === 55 && fallosR4 === 1) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 58}); return; }
+             if (pasoActual === 56 && (fallosR4 === 2 || fallosR4 === 3)) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 58}); return; }
+             if (pasoActual === 57 && fallosR4 >= 4) { renderizarTexto(currentStep.texto, {boton: "Avanzar", salto: 58}); return; }
              pasoActual++;
              mostrarSiguienteMensaje();
              return;
@@ -414,7 +418,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 progressBarContainer.style.display = 'none';
             }
             
-            // Lógica de Salto Manual (Puntos 1 y 5)
             if (stepObj && stepObj.salto) {
                 pasoActual = stepObj.salto;
             } else {
@@ -430,6 +433,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         continueButton.style.display = 'block';
     }
+
+    continueButton.addEventListener('click', () => {
+        if (guion[pasoActual] && guion[pasoActual].efecto === "ocultarBarra") {
+            progressBarContainer.style.display = 'none';
+        }
+        pasoActual++;
+        mostrarSiguienteMensaje();
+    });
 
     // --- FUNCIONES RETOS 1 (TOUCH & MOUSE) ---
     let tarjetaSiendoArrastrada = null; let sourceSlot = null;
@@ -530,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if(aciertos===9){
             feedbackTitle.textContent="¡RETO COMPLETADO!";feedbackTitle.style.color="#00FF00";feedbackMessage.innerHTML="";feedbackButton.textContent="Continuar";
-            feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';iniciarConfeti();setTimeout(()=>{completarReto(1);},500);};feedbackOverlay.style.display='flex';
+            feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';setTimeout(()=>{completarReto(1);},500);};feedbackOverlay.style.display='flex';
         }else{
             intentosFallidos++;feedbackTitle.textContent=`Intento fallido ${intentosFallidos}/3`;feedbackTitle.style.color="#FFD700";
             switch(intentosFallidos){case 1:feedbackMessage.innerHTML="Ten cuidado...";feedbackButton.textContent="¡Vamos!";break;case 2:feedbackMessage.innerHTML="¡Última oportunidad!";feedbackButton.textContent="¡Concéntrate!";break;case 3:default:feedbackMessage.innerHTML="LAMENTABLE<br>Tienes una última oportunidad, pero ésta vez pide ayuda hija...";feedbackButton.textContent="Ayuda...";break;}
@@ -554,7 +565,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function guardarRespuestaInvitado(){const selectedCards=answerGridContainer.querySelectorAll('.selected');const pregunta=preguntasReto2[reto2State.currentQuestion];pregunta.invitedAnswer=[];selectedCards.forEach(card=>{pregunta.invitedAnswer.push(card.textContent);});mostrarOpcionesAndrea();}
     function mostrarOpcionesAndrea(){reto2State.currentTurn='andrea-reveal';const pregunta=preguntasReto2[reto2State.currentQuestion];if(!reto2State.isLooping){challenge2QuestionText.innerHTML="¡TU TURNO, ANDREA!<br>INTENTA ACERTAR.";}challenge2Button.textContent="Validar";challenge2Button.style.visibility='hidden';personSelectorContainer.innerHTML='';personSelectorTitle.style.display='none';crearCuadriculaRespuestas(pregunta);}
     
-    // PUNTO 2: LÓGICA ACERTAR PREGUNTA 6 Y COLORES
+    // PUNTO 2: CORRECCIÓN VISUAL Y LÓGICA ACERTAR PREGUNTA 6
     function validarRespuestaAndrea(){
         answerGridContainer.querySelectorAll('.answer-card').forEach(card=>card.onclick=null);
         const selectedCards=answerGridContainer.querySelectorAll('.selected');
@@ -563,10 +574,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const pregunta=preguntasReto2[reto2State.currentQuestion];
         let isCorrect=false;
         
-        // Lógica de acierto flexible para pregunta 6
         if(pregunta.allCorrect){isCorrect=true;}
         else if(pregunta.id===6){
-            // Acierta si las 2 opciones del invitado están en las 3 de Andrea
+            // Corrección Flexible: si las 2 del invitado están en las 3 de Andrea
             const allIncluded = pregunta.invitedAnswer.every(ans => reto2State.andreasAnswers.includes(ans));
             isCorrect = allIncluded;
         }
@@ -588,6 +598,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             });
+
             if(isCorrect){
                 reto2State.correctAnswers++;
                 pregunta.status='correct';
@@ -611,10 +622,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function comprobarEstadoJuego(){
         if(reto2State.lives<=0&&reto2State.correctAnswers<5){mostrarCastigo();return;}
         let allAnswered=preguntasReto2.every(p=>p.status!=='pending');
+        
         if(allAnswered){
             if(reto2State.correctAnswers>=5){
                 terminarReto2(true);
             } else {
+                // BUCLE OBLIGATORIO SI < 5
                 reto2State.isLooping=true;
                 let firstFailed=0;
                 while(preguntasReto2[firstFailed].status==='correct'){firstFailed++;}
@@ -624,6 +637,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             return;
         }
+
         if(reto2State.isLooping){
             if(reto2State.correctAnswers>=5){terminarReto2(true);return;}
             let nextQ=(reto2State.currentQuestion+1)%preguntasReto2.length;
@@ -654,10 +668,13 @@ document.addEventListener('DOMContentLoaded', () => {
             challengeContainer2.style.display='none';appContainer.style.display='flex';appContainer.style.opacity='0';progressMarker.style.display='block';
             reto2State.vidasGastadas=3-reto2State.lives;
             if(reto2State.vidasGastadas<0)reto2State.vidasGastadas=0;
+            
             marcarRetoCompletado(2);
+            // Selección mensaje variable y salto
             if(reto2State.correctAnswers===8){pasoActual=29;}
             else if(reto2State.punishments>0){pasoActual=31;}
             else{pasoActual=30;}
+            
             requestAnimationFrame(()=>{appContainer.style.opacity='1';});
             mostrarSiguienteMensaje();
         },500);
@@ -674,30 +691,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function crearBotonesDebug() {const nav=document.getElementById('debug-nav');nav.innerHTML='';for(let i=1;i<=5;i++){const btn=document.createElement('button');btn.className='debug-btn';btn.textContent=i;btn.onclick=()=>saltarAReto(i);nav.appendChild(btn);if(i<5){const btnPost=document.createElement('button');btnPost.className='debug-btn';btnPost.textContent=`${i}-${i+1}`;btnPost.onclick=()=>saltarAPostReto(i);nav.appendChild(btnPost);}}}
-    function saltarAReto(num){appContainer.style.opacity='0';appContainer.style.display='none';challengeContainer.style.opacity='0';challengeContainer.style.display='none';challengeContainer2.style.opacity='0';challengeContainer2.style.display='none';challengeContainer3.style.opacity='0';challengeContainer3.style.display='none';challengeContainer4.style.opacity='0';challengeContainer4.style.display='none';challengeContainer5.style.opacity='0';challengeContainer5.style.display='none';punishmentOverlay.style.display='none';continueButton.style.display='none';challengeTitle.style.display='none';progressMarker.style.display='none';feedbackOverlay.style.display='none';if(progressMarker.children.length===0)crearMarcadorProgreso();progressMarker.style.display='block';for(let i=1;i<num;i++){marcarRetoCompletado(i);}if(num===1){pasoActual=15;}else if(num===2){pasoActual=28;}else if(num===3){pasoActual=40;}else if(num===4){iniciarReto4();return;}else if(num===5){iniciarReto5();return;}else{pasoActual=38;}mostrarSiguienteMensaje();}
-    
-    // Atajos corregidos
+    function saltarAReto(num){appContainer.style.opacity='0';appContainer.style.display='none';challengeContainer.style.opacity='0';challengeContainer.style.display='none';challengeContainer2.style.opacity='0';challengeContainer2.style.display='none';challengeContainer3.style.opacity='0';challengeContainer3.style.display='none';challengeContainer4.style.opacity='0';challengeContainer4.style.display='none';challengeContainer5.style.opacity='0';challengeContainer5.style.display='none';punishmentOverlay.style.display='none';continueButton.style.display='none';challengeTitle.style.display='none';progressMarker.style.display='none';feedbackOverlay.style.display='none';if(progressMarker.children.length===0)crearMarcadorProgreso();progressMarker.style.display='block';for(let i=1;i<num;i++){marcarRetoCompletado(i);}if(num===1){pasoActual=15;}else if(num===2){pasoActual=28;}else if(num===3){pasoActual=39;}else if(num===4){iniciarReto4();return;}else if(num===5){iniciarReto5();return;}else{pasoActual=38;}mostrarSiguienteMensaje();}
     function saltarAPostReto(num){
-        appContainer.style.opacity='0';appContainer.style.display='none';
-        challengeContainer.style.opacity='0';challengeContainer.style.display='none';
-        challengeContainer2.style.opacity='0';challengeContainer2.style.display='none';
-        challengeContainer3.style.opacity='0';challengeContainer3.style.display='none';
-        challengeContainer4.style.opacity='0';challengeContainer4.style.display='none';
-        challengeContainer5.style.display='none';
-        punishmentOverlay.style.display='none';continueButton.style.display='none';
-        challengeTitle.style.display='none';progressMarker.style.display='none';
-        feedbackOverlay.style.display='none';
-        if(progressMarker.children.length===0)crearMarcadorProgreso();
-        progressMarker.style.display='block';
-        for(let i=1;i<=num;i++){marcarRetoCompletado(i);}
-        
+        appContainer.style.opacity='0';appContainer.style.display='none';challengeContainer.style.opacity='0';challengeContainer.style.display='none';challengeContainer2.style.opacity='0';challengeContainer2.style.display='none';challengeContainer3.style.opacity='0';challengeContainer3.style.display='none';challengeContainer4.style.opacity='0';challengeContainer4.style.display='none';challengeContainer5.style.display='none';punishmentOverlay.style.display='none';continueButton.style.display='none';challengeTitle.style.display='none';progressMarker.style.display='none';feedbackOverlay.style.display='none';if(progressMarker.children.length===0)crearMarcadorProgreso();progressMarker.style.display='block';for(let i=1;i<=num;i++){marcarRetoCompletado(i);}
         if(num===1){intentosFallidos=1;completarReto(1);}
         else if(num===2){reto2State.vidasGastadas=1;reto2State.totalLivesLost=1;reto2State.correctAnswers=7;reto2State.punishments=0;terminarReto2(true);}
         else if(num===3){reto3State.vidasGastadas=1;reto3State.totalLivesLost=1;reto3State.correctAnswers=8;reto3State.punishments=0;terminarReto3(true);}
         else if(num===4){
             reto4State.health=8; 
             marcarRetoCompletado(4); 
-            pasoActual=55; 
+            pasoActual=54; // Salto correcto a Post-Reto 4
             appContainer.style.opacity='1'; 
             appContainer.style.display='flex';
             mostrarSiguienteMensaje();
@@ -708,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- RETO 3 ---
     function iniciarReto3(){currentChallenge=3;appContainer.style.opacity='0';continueButton.style.display='none';progressMarker.style.display='none';challengeTitle.textContent="RETO 3";challengeTitle.style.display='block';document.getElementById('challenge-3-ui').style.display='flex';setTimeout(()=>{appContainer.style.display='none';challengeContainer3.style.display='flex';challengeContainer3.style.opacity='1';},500);reto3State.currentQuestion=0;reto3State.lives=3;reto3State.correctAnswers=0;reto3State.availablePeople=[...personasReto3];reto3State.jokers=3;reto3State.punishments=0;reto3State.isLooping=false;preguntasReto3.forEach(p=>{p.status='pending';p.andreasChoice=null;p.answeredBy='';p.wasJokerUsed=false;});actualizarUIReto3();mostrarPreguntaReto3();}
     function actualizarUIReto3(){livesContainer3.innerHTML='';for(let i=0;i<3;i++){const heart=document.createElement('span');heart.className='heart';heart.id=`heart-3-${i}`;heart.textContent='❤️';if(i>=reto3State.lives)heart.classList.add('lost');livesContainer3.appendChild(heart);}jokerContainer.innerHTML='';for(let i=0;i<3;i++){const joker=document.createElement('span');joker.className='joker-icon';joker.id=`joker-${i}`;joker.textContent='🃏';if(i>=reto3State.jokers)joker.classList.add('used');jokerContainer.appendChild(joker);}trophyContainer3.innerHTML='';for(let i=0;i<8;i++){const trophy=document.createElement('span');trophy.className='trophy';trophy.id=`trophy-3-${i}`;trophy.textContent='🏆';if(preguntasReto3[i]){if(preguntasReto3[i].status==='correct')trophy.classList.add('correct');if(preguntasReto3[i].status==='failed')trophy.classList.add('failed');}trophyContainer3.appendChild(trophy);}}
-    function mostrarPreguntaReto3(){if(reto3State.isLooping){let nextQIndex=reto3State.currentQuestion;while(preguntasReto3[nextQIndex].status==='correct'){nextQIndex=(nextQIndex+1)%preguntasReto3.length;}reto3State.currentQuestion=nextQIndex;}reto3State.currentTurn='andrea-assign-person';const pregunta=preguntasReto3[reto3State.currentQuestion];challengeSubtitle3.textContent=`Pregunta ${pregunta.id}`;if(reto3State.isLooping){challenge3QuestionText.innerHTML=`RECORDATORIO: LA RESPONDIÓ ${pregunta.answeredBy}.<br>¡INTÉNTALO DE NUEVO!<br><br>${pregunta.texto}`;crearCuadriculaRespuestas(pregunta);mostrarOpcionesInvitadoReto3();return;}else{challenge3QuestionText.innerHTML=pregunta.texto;}answerGridContainer3.innerHTML='';jokerArea.style.display='none';challenge3Feedback.innerHTML='';personSelectorTitle3.textContent='ELIGE A QUIÉN PREGUNTAR:';personSelectorTitle3.style.display='block';personSelectorContainer3.innerHTML='';personSelectorContainer3.className='grid-4x2';personasReto3.forEach(nombre=>{const card=document.createElement('div');card.className='person-card';card.textContent=nombre;if(reto3State.availablePeople.includes(nombre)){card.onclick=()=>seleccionarPersonaReto3(nombre);}else{card.classList.add('disabled');}personSelectorContainer3.appendChild(card);});}
+    function mostrarPreguntaReto3(){if(reto3State.isLooping){let nextQIndex=reto3State.currentQuestion;while(preguntasReto3[nextQIndex].status==='correct'){nextQIndex=(nextQIndex+1)%preguntasReto3.length;}reto3State.currentQuestion=nextQIndex;}reto3State.currentTurn='andrea-assign-person';const pregunta=preguntasReto3[reto3State.currentQuestion];challengeSubtitle3.textContent=`Pregunta ${pregunta.id}`;if(reto3State.isLooping){challenge3QuestionText.innerHTML=`RECORDATORIO: LA RESPONDIÓ ${pregunta.answeredBy}.<br>¡INTÉNTALO DE NUEVO!<br><br>${pregunta.texto}`;crearCuadriculaRespuestas(pregunta);mostrarOpcionesInvitadoReto3();return;}else{challenge3QuestionText.innerHTML=pregunta.texto;}answerGridContainer3.innerHTML='';document.getElementById('joker-interaction-area').style.display='none';challenge3Feedback.innerHTML='';personSelectorTitle3.textContent='ELIGE A QUIÉN PREGUNTAR:';personSelectorTitle3.style.display='block';personSelectorContainer3.innerHTML='';personSelectorContainer3.className='grid-4x2';personasReto3.forEach(nombre=>{const card=document.createElement('div');card.className='person-card';card.textContent=nombre;if(reto3State.availablePeople.includes(nombre)){card.onclick=()=>seleccionarPersonaReto3(nombre);}else{card.classList.add('disabled');}personSelectorContainer3.appendChild(card);});}
     function seleccionarPersonaReto3(nombre){preguntasReto3[reto3State.currentQuestion].answeredBy=nombre;reto3State.availablePeople=reto3State.availablePeople.filter(p=>p!==nombre);reto3State.currentTurn='andrea-choose-answer';const pregunta=preguntasReto3[reto3State.currentQuestion];challenge3QuestionText.innerHTML=`¿SABRÁ ${nombre}...?<br><br>${pregunta.texto}<br><br>ELIGE TU RESPUESTA, ANDREA:`;personSelectorContainer3.innerHTML='';personSelectorTitle3.style.display='none';crearCuadriculaRespuestas(pregunta);}
     function seleccionarRespuestaReto3(index){reto3State.andreasChoice=index;const cards=answerGridContainer3.querySelectorAll('.answer-card');cards.forEach((card,i)=>{if(i===index)card.classList.add('selected');card.onclick=null;});setTimeout(()=>{mostrarOpcionesInvitadoReto3();},1000);}
     
@@ -723,7 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cards.forEach((card,index)=>{card.classList.remove('selected');card.onclick=()=>validarRespuestaReto3(index);});
         
         // Mostrar JOKER explícitamente
-        document.getElementById('joker-area').style.display = 'flex';
+        document.getElementById('joker-interaction-area').style.display = 'flex';
         document.getElementById('joker-button-container').style.display='block';
         document.getElementById('joker-hint-container').style.display='none';
         
@@ -743,7 +746,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function validarRespuestaReto3(indexInvitado){
         answerGridContainer3.querySelectorAll('.answer-card').forEach(card=>card.onclick=null);
-        document.getElementById('joker-area').style.display='none'; // Ocultar Joker al responder
+        document.getElementById('joker-interaction-area').style.display='none'; // Ocultar Joker al responder
         const pregunta=preguntasReto3[reto3State.currentQuestion];
         const isCorrect=(indexInvitado===reto3State.andreasChoice);
         const trophy=document.getElementById(`trophy-3-${reto3State.currentQuestion}`);
@@ -752,7 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(()=>{if(isCorrect){reto3State.correctAnswers++;pregunta.status='correct';challenge3Feedback.innerHTML="¡CORRECTO!";challenge3Feedback.className='feedback-correct';trophy.classList.remove('failed');trophy.classList.add('correct');cards[indexInvitado].classList.remove('selected');cards[indexInvitado].classList.add('correct');cards[indexInvitado].classList.add('blink-effect');}else{reto3State.lives--;reto3State.totalLivesLost++;pregunta.status='failed';challenge3Feedback.innerHTML="¡FALLO!";challenge3Feedback.className='feedback-wrong';trophy.classList.remove('correct');trophy.classList.add('failed');const heart=document.getElementById(`heart-3-${reto3State.lives}`);if(heart)heart.classList.add('lost');cards[indexInvitado].classList.remove('selected');cards[indexInvitado].classList.add('wrong');cards[reto3State.andreasChoice].classList.add('selected');cards[reto3State.andreasChoice].classList.add('blink-effect');}setTimeout(()=>{challenge3Feedback.innerHTML='';comprobarEstadoJuegoReto3();},3000);},1000);
     }
     function comprobarEstadoJuegoReto3(){if(reto3State.lives<=0&&reto3State.correctAnswers<5){currentChallenge=3;mostrarCastigo();return;}let allAnswered=preguntasReto3.every(p=>p.status!=='pending');if(reto3State.isLooping){if(reto3State.correctAnswers>=5){terminarReto3(true);return;}let nextQ=(reto3State.currentQuestion+1)%preguntasReto3.length;while(preguntasReto3[nextQ].status==='correct'){nextQ=(nextQ+1)%preguntasReto3.length;}reto3State.currentQuestion=nextQ;actualizarUIReto3();mostrarPreguntaReto3();return;}if(allAnswered){if(reto3State.correctAnswers>=5){terminarReto3(true);}else{reto3State.isLooping=true;let firstFailed=0;while(preguntasReto3[firstFailed].status==='correct'){firstFailed++;}reto3State.currentQuestion=firstFailed;actualizarUIReto3();mostrarPreguntaReto3();}return;}let proximaPreguntaIndex=reto3State.currentQuestion+1;reto3State.currentQuestion=proximaPreguntaIndex;actualizarUIReto3();mostrarPreguntaReto3();}
-    function terminarReto3(didWin){challengeContainer3.style.opacity='0';challengeTitle.style.display='none';setTimeout(()=>{challengeContainer3.style.display='none';appContainer.style.display='flex';appContainer.style.opacity='0';progressMarker.style.display='block';marcarRetoCompletado(3);reto3State.vidasGastadas=3-reto3State.lives;if(reto3State.vidasGastadas<0)reto3State.vidasGastadas=0;pasoActual=41;requestAnimationFrame(()=>{appContainer.style.opacity='1';});mostrarSiguienteMensaje();},500);}
+    function terminarReto3(didWin){challengeContainer3.style.opacity='0';challengeTitle.style.display='none';setTimeout(()=>{challengeContainer3.style.display='none';appContainer.style.display='flex';appContainer.style.opacity='0';progressMarker.style.display='block';marcarRetoCompletado(3);reto3State.vidasGastadas=3-reto3State.lives;if(reto3State.vidasGastadas<0)reto3State.vidasGastadas=0;pasoActual=40;requestAnimationFrame(()=>{appContainer.style.opacity='1';});mostrarSiguienteMensaje();},500);}
 
     // --- RETO 4 ---
     function iniciarReto4() {
@@ -775,7 +778,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 challengeContainer4.style.display='none';
                 marcarRetoCompletado(4);
-                pasoActual = 55;
+                pasoActual = 54; // PUNTO 5: SALTO A 54 (Valoración)
                 appContainer.style.opacity='1';
                 appContainer.style.display='flex';
                 mostrarSiguienteMensaje();
@@ -989,10 +992,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function comprobarFinalReto5() {
-        const totalYes = reto5State.answers.filter(a => a.response === "SÍ").length;
+        const totalYes = reto5State.answers.filter(a => a && a.response === "SÍ").length;
         const required = Math.ceil(totalYes / 2);
         reto5State.requiredExplanations = required;
-        actualizarMarcadorReto5(); // Update required text
+        actualizarMarcadorReto5(); 
         
         if (reto5State.greenTicks >= required) {
             terminarReto5();
@@ -1010,9 +1013,8 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarPreguntaReto5();
     }
     
-    // PUNTO 7: MARCADOR COMPLEJO
+    // PUNTO 7: MARCADOR COMPLEJO (HTML GENERATOR)
     function actualizarMarcadorReto5() {
-        // Calcular requeridas dinámicamente
         const totalYes = reto5State.answers.filter(a => a && a.response === "SÍ").length;
         const required = Math.ceil(totalYes / 2);
         
@@ -1027,14 +1029,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (reto5State.answers[i]) {
                 if (reto5State.answers[i].response === "SÍ") {
                     numClass += " yes"; // Verde
-                    // Icono explicacion
                     if (reto5State.answers[i].explained) {
                         iconHTML = `<div class="r5-icon">✅</div>`;
                     } else {
-                        // Si ya contestó SI pero no explicó (o eligió no explicar)
-                        // Y ya pasó la fase de botones... ponemos aspa.
-                        // Simplificación: Si es SÍ y explained es false -> aspa
-                        iconHTML = `<div class="r5-icon">❌</div>`;
+                         // Si ya se respondió pero no se explicó (y no estamos esperando input)
+                         // En fase de respuesta inicial, no ponemos X hasta que pase
+                         if(reto5State.currentQuestion > i) {
+                             iconHTML = `<div class="r5-icon">❌</div>`;
+                         }
                     }
                 } else {
                     numClass += " no"; // Rojo

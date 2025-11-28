@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#000000">
     
     <title>Retos de tu Amigo Invisible</title>
-    <link rel="stylesheet" href="style.css?v=final_release_v1">
+    <link rel="stylesheet" href="style.css?v=final_fixed_v13">
 </head>
 <body>
 
@@ -32,17 +32,17 @@
     
     <button id="continue-button"></button>
 
-    <div id="challenge-container" class="container-challenge center-content">
+    <div id="challenge-container" class="container-challenge center-content" style="display: none;">
         <div id="game-board">
             <div id="fixed-column" class="drop-column"></div>
             <div id="card-source-right" class="card-column"></div>
         </div>
         <div id="validation-area">
-            <button id="validate-button">Validar</button>
+            <button id="validate-button" style="display: none;">Validar</button>
         </div>
     </div>
     
-    <div id="challenge1-feedback-overlay">
+    <div id="challenge1-feedback-overlay" style="display: none;">
         <div id="challenge1-feedback-box">
             <h2 id="challenge1-feedback-title"></h2>
             <p id="challenge1-feedback-message"></p>
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div id="challenge-container-2" class="container-challenge bottom-aligned">
+    <div id="challenge-container-2" class="container-challenge bottom-aligned" style="display: none;">
         <div id="challenge-2-ui">
             <div id="lives-container"></div>
             <div id="trophy-container"></div>
@@ -67,12 +67,11 @@
         </div>
     </div>
     
-    <div id="challenge-container-3" class="container-challenge bottom-aligned">
+    <div id="challenge-container-3" class="container-challenge bottom-aligned" style="display: none;">
         <div id="challenge-3-ui">
             <div>
                 <div id="lives-container-3"></div>
-                <div id="joker-container"></div> 
-            </div>
+                <div id="joker-container"></div> </div>
             <div id="trophy-container-3"></div>
         </div>
         
@@ -83,11 +82,23 @@
             <h3 id="person-selector-title-3" class="person-selector-title"></h3>
             <div id="person-selector-container-3"></div>
             <div id="answer-grid-container-3"></div>
+            
+            <div id="joker-interaction-area" style="display: none;">
+                <div id="joker-button-container">
+                    <div id="joker-button">🃏</div>
+                    <span>Joker?</span>
+                </div>
+                <div id="joker-hint-container" style="display: none;">
+                    <h3 id="joker-hint-title">Pista:</h3>
+                    <p id="joker-hint-text"></p>
+                </div>
+            </div>
+
             <p id="challenge-3-feedback"></p>
         </div>
     </div>
 
-    <div id="challenge-container-4" class="container-challenge bottom-aligned">
+    <div id="challenge-container-4" class="container-challenge bottom-aligned" style="display: none;">
         <h2 id="challenge-subtitle-4"></h2> 
         
         <div id="challenge-4-content" class="bottom-content">
@@ -103,9 +114,10 @@
         </div>
     </div>
 
-    <div id="challenge-container-5" class="container-challenge bottom-aligned">
+    <div id="challenge-container-5" class="container-challenge bottom-aligned" style="display: none;">
         <div id="challenge-5-ui">
-            <div id="r5-scoreboard"></div> </div>
+            <div id="r5-scoreboard-container"></div> 
+        </div>
 
         <h2 id="challenge-subtitle-5"></h2> 
         
@@ -114,7 +126,7 @@
             
             <div id="answer-grid-container-5"></div>
             
-            <div id="commitment-buttons-container">
+            <div id="commitment-buttons-container" style="visibility: hidden;">
                 <div id="btn-explain-yes" class="commitment-btn">
                     <span class="emoji-icon">💬</span>
                     <span class="status-icon">✅</span>
@@ -129,9 +141,9 @@
         </div>
     </div>
 
-    <div id="progress-marker"></div>
+    <div id="progress-marker" style="display: none;"></div>
 
-    <div id="progress-bar-container">
+    <div id="progress-bar-container" style="display: none;">
         <div class="trophy-icon-small">🏆</div>
         <div id="retro-health-bar">
             <div class="health-segment red" id="seg-1"></div>
@@ -168,20 +180,9 @@
             <div id="repesca-text"></div>
         </div>
     </div>
-
-    <div id="joker-area" style="display: none;">
-        <div id="joker-button-container">
-            <div id="joker-button">🃏</div>
-            <span>Joker?</span>
-        </div>
-        <div id="joker-hint-container">
-            <h3 id="joker-hint-title">Pista:</h3>
-            <p id="joker-hint-text"></p>
-        </div>
-    </div>
     
     <img id="final-gift-image" src="regalo.png" alt="Tu Regalo" style="display: none;">
 
-    <script src="script.js?v=final_release_v1"></script>
+    <script src="script.js?v=final_release_v13"></script>
 </body>
 </html>
