@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- VARIABLES GLOBALES ---
     const numeroTotalDeRetos = 5; 
     
-    // --- GUION DEL JUEGO ---
+    // --- GUION LINEAL (Texto y Acciones) ---
     const guion = [
         /* 0 */ { texto: "Hola Andrea" },
         /* 1 */ { texto: "Un año más<br>¡te toca trabajar!" },
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         /* 49 */ { texto: "¿Preparada?", boton: "Avanzar" }, 
         /* 50 */ { texto: "Ah! Una cosa más, que se me olvidaba", boton: "Avanzar" }, 
         
-        /* 51 */ 
+        /* 51: APARICIÓN BARRA VIDA */ 
         { 
             texto: "El resultado de éste reto es más importante que los anteriores, ya que la cantidad de aciertos determinará la dificultad del último reto.",
             boton: "Continuar..."
@@ -91,17 +91,18 @@ document.addEventListener('DOMContentLoaded', () => {
         /* 60 */ { texto: "Pero si te piensas que eso lo va a hacer fácil... te espera una buena" },
         /* 61 */ { texto: "El último reto es el Reto de la Honestidad <br><br>Y como tal, te vamos a poner a prueba" },
         
-        /* 62 */ { texto: "Éste reto consta de las últimas 8 preguntas.<br>Al terminar, te espera por fin<br><u>TU REGALO</u>", boton: "Avanzar" },
+        /* 62: MENSAJE CON HTML COMPLEX (Subrayado) */
+        { texto: "Éste reto consta de las últimas 8 preguntas.<br>Al terminar, te espera por fin<br><u>TU REGALO</u>", boton: "Avanzar" },
         
         /* 63 */ { texto: "Éstas preguntas hay que admitir que son comprometidas, pero espero que tu regalo lo merezca", boton: "Continuar..." },
         
         /* 64 */ { texto: "Una detalle importante: no sabes qué preguntas te van a venir, pero hay una cosa que sí sabes." }, 
         
-        // PAUSA DE 1 SEGUNDO
-        /* 65 */ { texto: "¡Vas a tener que dar detalles de 4 de esas 8!|<br>Elige bien qué 4 preguntas realmente no quieres dar más detalles que el Si o No" },
+        /* 65: PAUSA 1s */ 
+        { texto: "¡Vas a tener que dar detalles de 4 de esas 8!|<br>Elige bien qué 4 preguntas realmente no quieres dar más detalles que el Si o No" },
         
-        // PAUSA DE 1 SEGUNDO
-        /* 66 */ { texto: "¿Preparada?|<br>¿Igual deberías haberte tomado una copita antes de empezar esto, no?😅", boton: "Avanzar" },
+        /* 66: PAUSA 1s */ 
+        { texto: "¿Preparada?|<br>¿Igual deberías haberte tomado una copita antes de empezar esto, no?😅", boton: "Avanzar" },
         
         /* 67 */ { tipo: "trigger", reto: 5 } 
     ];
@@ -241,7 +242,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (repescaCloseBtn) repescaCloseBtn.onclick = cerrarRepescaEIniciarBucle;
     if (fullscreenBtn) {
         fullscreenBtn.onclick = toggleFullScreen;
-        // Listener para detectar salida de pantalla completa
         document.addEventListener('fullscreenchange', () => {
             if (!document.fullscreenElement) {
                 fullscreenBtn.style.display = 'block';
@@ -249,23 +249,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Fullscreen Helper
     function toggleFullScreen() {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen().catch(err => {
                 console.log(`Error enabling fullscreen: ${err.message}`);
             });
-            fullscreenBtn.style.display = 'none'; // Ocultar al activar
+            fullscreenBtn.style.display = 'none'; 
         }
     }
 
-    // Scroll Hack Mobile
+    // Scroll Hack
     window.scrollTo(0,1);
     
     iniciarJuego();
     
     function iniciarJuego() {
-        // Resetear visibilidad de contenedores fantasma por si acaso
+        // Limpieza inicial
         challengeContainer.style.display = 'none';
         challengeContainer2.style.display = 'none';
         challengeContainer3.style.display = 'none';
@@ -280,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function mostrarSiguienteMensaje() {
         const currentStep = guion[pasoActual];
         
-        // --- TRIGGERS ---
         if (currentStep.tipo === 'trigger') {
             if (currentStep.reto === 1) iniciarReto1();
             else if (currentStep.reto === 2) iniciarReto2();
@@ -290,7 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        // --- MENSAJES DINÁMICOS ---
         if (pasoActual === 30 || pasoActual === 31) {
             let texto = currentStep.texto.replace('{X}', reto2State.totalLivesLost).replace('{Y}', reto2State.punishments);
             renderizarTexto(texto, currentStep);
@@ -310,7 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
              return;
         }
         
-        // Post Reto 4
         const fallosR4 = 8 - (reto4State.health || 8);
         if (pasoActual === 55 && fallosR4 === 0) { renderizarTexto(currentStep.texto, currentStep); return; }
         else if (pasoActual === 55 && fallosR4 > 0) { pasoActual++; mostrarSiguienteMensaje(); return; } 
@@ -323,11 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (pasoActual === 58 && fallosR4 >= 4) { renderizarTexto(currentStep.texto, currentStep); return; }
         else if (pasoActual === 58 && fallosR4 < 4) { pasoActual++; mostrarSiguienteMensaje(); return; }
-        
-        // Mensaje Intermedio Reto 5 (Repesca)
-        if (pasoActual === 55) { 
-             // (Placeholder lógico, no se usa aquí sino en el reto 5)
-        }
 
         renderizarTexto(currentStep.texto, currentStep);
     }
@@ -423,7 +414,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if(progressMarker.children.length===0)crearMarcadorProgreso();progressMarker.style.display='none';
         challengeTitle.textContent="RETO 1";challengeTitle.style.display='block';
         setTimeout(()=>{appContainer.style.display='none';challengeContainer.style.display='flex';challengeContainer.style.opacity='1';
-            // Forzar botón validar a display block aquí dentro
             validateButton.style.display = 'block';
         },500);
         crearTableroJuego();intentosFallidos=0;validateButton.onclick=validarRespuestas;
@@ -454,7 +444,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
-    // Mouse Handlers
     function onDragStart(e){tarjetaSiendoArrastrada=e.target;sourceSlot=e.target.parentElement;e.target.classList.add('dragging');}
     function onDragEnd(e){e.target.classList.remove('dragging');}
     document.addEventListener('dragover', (e) => e.preventDefault());
@@ -468,7 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
         tarjetaSiendoArrastrada = null;
     });
 
-    // Touch Handlers
     let initialTouchX = 0; let initialTouchY = 0;
     function handleTouchStart(e) {
         e.preventDefault(); tarjetaSiendoArrastrada = e.target; sourceSlot = e.target.parentElement;
@@ -512,9 +500,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if(regalador&&regaladoEl){paresEncontrados.set(regalador,regaladoEl.dataset.name);}
         });
         if(paresEncontrados.size===9){soluciones.forEach((regalado,regalador)=>{if(paresEncontrados.get(regalador)===regalado)aciertos++;});}
+        
         if(aciertos===9){
             feedbackTitle.textContent="¡RETO COMPLETADO!";feedbackTitle.style.color="#00FF00";feedbackMessage.innerHTML="";feedbackButton.textContent="Continuar";
-            feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';iniciarConfeti();setTimeout(()=>{completarReto(1);},500);};feedbackOverlay.style.display='flex';
+            feedbackButton.onclick=()=>{feedbackOverlay.style.display='none';setTimeout(()=>{completarReto(1);},500);};feedbackOverlay.style.display='flex';
         }else{
             intentosFallidos++;feedbackTitle.textContent=`Intento fallido ${intentosFallidos}/3`;feedbackTitle.style.color="#FFD700";
             switch(intentosFallidos){case 1:feedbackMessage.innerHTML="Ten cuidado...";feedbackButton.textContent="¡Vamos!";break;case 2:feedbackMessage.innerHTML="¡Última oportunidad!";feedbackButton.textContent="¡Concéntrate!";break;case 3:default:feedbackMessage.innerHTML="LAMENTABLE<br>Tienes una última oportunidad, pero ésta vez pide ayuda hija...";feedbackButton.textContent="Ayuda...";break;}
@@ -538,7 +527,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function guardarRespuestaInvitado(){const selectedCards=answerGridContainer.querySelectorAll('.selected');const pregunta=preguntasReto2[reto2State.currentQuestion];pregunta.invitedAnswer=[];selectedCards.forEach(card=>{pregunta.invitedAnswer.push(card.textContent);});mostrarOpcionesAndrea();}
     function mostrarOpcionesAndrea(){reto2State.currentTurn='andrea-reveal';const pregunta=preguntasReto2[reto2State.currentQuestion];if(!reto2State.isLooping){challenge2QuestionText.innerHTML="¡TU TURNO, ANDREA!<br>INTENTA ACERTAR.";}challenge2Button.textContent="Validar";challenge2Button.style.visibility='hidden';personSelectorContainer.innerHTML='';personSelectorTitle.style.display='none';crearCuadriculaRespuestas(pregunta);}
     
-    // CORRECCIÓN VISUAL RETO 2
     function validarRespuestaAndrea(){
         answerGridContainer.querySelectorAll('.answer-card').forEach(card=>card.onclick=null);
         const selectedCards=answerGridContainer.querySelectorAll('.selected');
@@ -555,7 +543,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setTimeout(()=>{
             const trophy=document.getElementById(`trophy-${reto2State.currentQuestion}`);
-            // Feedback Visual
             const allCards = answerGridContainer.querySelectorAll('.answer-card');
             allCards.forEach(card => {
                 const text = card.textContent;
@@ -613,7 +600,9 @@ document.addEventListener('DOMContentLoaded', () => {
             while(preguntasReto2[nextQ].status==='correct'){
                 nextQ=(nextQ+1)%preguntasReto2.length;
                 if(nextQ===0){
-                    if(reto2State.currentQuestion===preguntasReto2.length-1||preguntasReto2.every(p=>p.status==='correct')){gaveFullLoop=true;break;}
+                    if(reto2State.currentQuestion===preguntasReto2.length-1||preguntasReto2.every(p=>p.status==='correct')){
+                        gaveFullLoop=true;break;
+                    }
                 }
             }
             if(gaveFullLoop){terminarReto2(reto2State.correctAnswers>=5);return;}
